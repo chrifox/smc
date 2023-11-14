@@ -1,36 +1,21 @@
-type InputProps = {
+import { InputHTMLAttributes } from "react";
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  value: any;
-  placeholder: string;
-  name: string;
-  type: "select" | "text" | "number";
   onChange: (event: React.ChangeEvent<any>) => void;
   options?: { label: string; value: string }[];
-};
+}
 
-const defaultInputClasses = "outline-none rounded ml-2";
+const defaultInputClasses = "text-black outline-none rounded w-full p-2";
 
-const Input = ({
-  label,
-  value,
-  name,
-  type,
-  onChange,
-  options = [],
-  placeholder,
-}: InputProps) => {
-  switch (type) {
+const Input = ({ label, options = [], ...props }: InputProps) => {
+  switch (props.type) {
     case "select":
       return options.length > 0 ? (
-        <div className="input-group">
+        <div className="input-group mb-2">
           <label>{label}</label>
-          <select
-            name={name}
-            className={`${defaultInputClasses} text-black`}
-            onChange={onChange}
-            defaultValue={value}
-          >
-            <option value="">{placeholder}</option>
+          <select className={defaultInputClasses} defaultValue={props.value}>
+            <option value="">{props.placeholder}</option>
             {options.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -39,16 +24,22 @@ const Input = ({
           </select>
         </div>
       ) : null;
-    default:
+    case "range":
       return (
-        <div className="input-group">
+        <div className="input-group mb-2">
           <label>{label}</label>
           <input
             className={defaultInputClasses}
-            name={name}
-            type={type}
-            onChange={onChange}
+            onMouseUp={props.onChange}
+            {...props}
           />
+        </div>
+      );
+    default:
+      return (
+        <div className="input-group mb-2">
+          <label>{label}</label>
+          <input className={defaultInputClasses} {...props} />
         </div>
       );
   }

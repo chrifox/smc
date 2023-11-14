@@ -3,58 +3,21 @@
 import { useEffect, useState } from "react";
 import Button from "./components/Button";
 import Input from "./components/Form/Input";
-
-const seedData: any = {
-  races: [
-    {
-      value: "human",
-      label: "Human",
-    },
-    {
-      value: "dwarf",
-      label: "Dwarf",
-    },
-    {
-      value: "elf",
-      label: "Elf",
-    },
-  ],
-  subraces: {
-    dwarf: [
-      {
-        value: "hill_dwarf",
-        label: "Hill Dwarf",
-      },
-      {
-        value: "mountain_dwarf",
-        label: "Mountain Dwarf",
-      },
-    ],
-  },
-  classes: [
-    {
-      value: "fighter",
-      label: "Fighter",
-    },
-    {
-      value: "mage",
-      label: "Mage",
-    },
-    {
-      value: "rogue",
-      label: "Rogue",
-    },
-  ],
-};
+import seedData from "./seed.json";
 
 type FormDataState = {
   [key: string]: any;
 };
 
 const defaultFormData = {
+  name: "",
   race: "",
   class: "",
+  height: 70,
+  age: 15,
 };
+
+const data: any = seedData;
 
 export default function Home() {
   const [formData, setFormData] = useState<FormDataState>(defaultFormData);
@@ -64,6 +27,14 @@ export default function Home() {
       ...previousFormData,
       [event.target.name]: event.target.value,
     }));
+  }
+
+  function handleReset() {
+    setTimeout(window.location.reload.bind(window.location), 100);
+  }
+
+  function handleRandomise() {
+    // write the randomiser function
   }
 
   function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
@@ -82,7 +53,16 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center p-16">
       <h1 className="mb-4">NPC Generator</h1>
 
-      <form onSubmit={handleSubmit}>
+      <form className="min-w-[25vw]" onSubmit={handleSubmit}>
+        <Input
+          type="text"
+          label="Name"
+          name="name"
+          placeholder="Enter a name"
+          value={formData.name.value}
+          onChange={updateFormData}
+        />
+
         <Input
           type="select"
           label="Race"
@@ -93,7 +73,7 @@ export default function Home() {
           options={seedData.races}
         />
 
-        {seedData.subraces[formData.race] && (
+        {data.subraces[formData.race] && (
           <Input
             type="select"
             label="Subrace"
@@ -101,7 +81,7 @@ export default function Home() {
             placeholder="Choose a Subrace"
             value={formData.subrace?.value}
             onChange={updateFormData}
-            options={seedData.subraces[formData.race]}
+            options={data.subraces[formData.race]}
           />
         )}
 
@@ -115,14 +95,33 @@ export default function Home() {
           options={seedData.classes}
         />
 
-        <div className="flex flex-row justify-between">
+        <Input
+          type="range"
+          label={`Height (${formData.height}in)`}
+          name="height"
+          value={formData.height.value}
+          onChange={updateFormData}
+          min={36}
+          max={120}
+        />
+
+        <Input
+          type="number"
+          label="Age"
+          name="age"
+          value={15}
+          onChange={updateFormData}
+          min={1}
+          max={9999}
+        />
+
+        <div className="flex flex-row justify-between mt-4">
+          <Button action={handleReset} label="Reset" classes="bg-red-500" />
           <Button
-            action={() =>
-              setTimeout(window.location.reload.bind(window.location), 250)
-            }
-            label="Reset"
+            action={handleRandomise}
+            label="Randomise"
+            classes="bg-amber-500"
           />
-          <Button action={() => alert("randomise the NPC")} label="Randomise" />
         </div>
       </form>
     </main>
