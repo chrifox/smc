@@ -14,7 +14,11 @@ const Input = ({ label, options = [], ...props }: InputProps) => {
       return options.length > 0 ? (
         <div className="input-group mb-2">
           <label>{label}</label>
-          <select className={defaultInputClasses} defaultValue={props.value}>
+          <select
+            className={defaultInputClasses}
+            defaultValue={props.value}
+            {...props}
+          >
             <option value="">{props.placeholder}</option>
             {options.map((option) => (
               <option key={option.value} value={option.value}>

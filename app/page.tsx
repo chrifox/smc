@@ -23,6 +23,8 @@ export default function Home() {
   const [formData, setFormData] = useState<FormDataState>(defaultFormData);
 
   function updateFormData(event: React.ChangeEvent<any>) {
+    console.log("update", event.target.value);
+
     setFormData((previousFormData) => ({
       ...previousFormData,
       [event.target.name]: event.target.value,
@@ -30,7 +32,8 @@ export default function Home() {
   }
 
   function handleReset() {
-    setTimeout(window.location.reload.bind(window.location), 100);
+    console.log("RESET");
+    setFormData(defaultFormData);
   }
 
   function handleRandomise() {
@@ -39,14 +42,10 @@ export default function Home() {
 
   function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    const formData = new FormData(event.target);
-
-    console.log(formData);
   }
 
   useEffect(() => {
-    console.log(formData);
+    console.log("STATE: ", formData);
   }, [formData]);
 
   return (
@@ -59,7 +58,7 @@ export default function Home() {
           label="Name"
           name="name"
           placeholder="Enter a name"
-          value={formData.name.value}
+          value={formData.name}
           onChange={updateFormData}
         />
 
@@ -68,18 +67,18 @@ export default function Home() {
           label="Race"
           name="race"
           placeholder="Choose a Race"
-          value={formData.race.value}
+          value={formData.race}
           onChange={updateFormData}
           options={seedData.races}
         />
 
-        {data.subraces[formData.race] && (
+        {formData.race?.length > 0 && data.subraces[formData.race] && (
           <Input
             type="select"
             label="Subrace"
             name="subrace"
             placeholder="Choose a Subrace"
-            value={formData.subrace?.value}
+            value={formData.subrace}
             onChange={updateFormData}
             options={data.subraces[formData.race]}
           />
@@ -90,7 +89,7 @@ export default function Home() {
           label="Class"
           name="class"
           placeholder="Choose a Class"
-          value={formData.class.value}
+          value={formData.class}
           onChange={updateFormData}
           options={seedData.classes}
         />
@@ -99,7 +98,7 @@ export default function Home() {
           type="range"
           label={`Height (${formData.height}in)`}
           name="height"
-          value={formData.height.value}
+          value={formData.height}
           onChange={updateFormData}
           min={36}
           max={120}
@@ -109,7 +108,7 @@ export default function Home() {
           type="number"
           label="Age"
           name="age"
-          value={15}
+          value={formData.age}
           onChange={updateFormData}
           min={1}
           max={9999}
