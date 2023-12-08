@@ -3,12 +3,15 @@ import { InputHTMLAttributes } from "react";
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   onChange: (event: React.ChangeEvent<any>) => void;
+}
+
+interface SelectProps extends InputHTMLAttributes<HTMLSelectElement> {
   options?: { label: string; value: string }[];
 }
 
 const defaultInputClasses = "text-black outline-none rounded w-full p-2";
 
-const Input = ({ label, options = [], ...props }: InputProps) => {
+const Input = ({ label, options = [], ...props }: InputProps & SelectProps) => {
   switch (props.type) {
     case "select":
       return options.length > 0 ? (
