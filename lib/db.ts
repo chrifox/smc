@@ -14,12 +14,39 @@ export async function getLatency() {
 }
 
 async function configureDb() {
-  const dbResponse = await sql`CREATE TABLE IF NOT EXISTS "races" (
+  await sql`CREATE TABLE IF NOT EXISTS "races" (
     "id" serial PRIMARY KEY NOT NULL,
     "name" text NOT NULL,
     "created_at" timestamp DEFAULT now()
   )`;
-  console.log("DB response:: ", dbResponse);
+
+  await sql`CREATE TABLE IF NOT EXISTS "subraces" (
+    "id" serial PRIMARY KEY NOT NULL,
+    "name" text NOT NULL,
+    "created_at" timestamp DEFAULT now()
+  )`;
+
+  await sql`CREATE TABLE IF NOT EXISTS "classes" (
+    "id" serial PRIMARY KEY NOT NULL,
+    "name" text NOT NULL,
+    "race" text NOT NULL,
+    "created_at" timestamp DEFAULT now()
+  )`;
 }
 
 configureDb().catch((error) => console.log("DB error:: ", error));
+
+export async function getRaces() {
+  const dbResponse = await sql`SELECT * FROM "races"`;
+  return dbResponse;
+}
+
+export async function getSubraces() {
+  const dbResponse = await sql`SELECT * FROM "subraces"`;
+  return dbResponse;
+}
+
+export async function getClasses() {
+  const dbResponse = await sql`SELECT * FROM "classes"`;
+  return dbResponse;
+}

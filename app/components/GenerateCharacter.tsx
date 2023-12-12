@@ -19,7 +19,7 @@ const defaultFormData = {
 
 const data: any = seedData;
 
-export default function GenerateCharacter() {
+export default function GenerateCharacter({ races, classes }) {
   const [formData, setFormData] = useState<FormDataState>(defaultFormData);
 
   function updateFormData(event: React.ChangeEvent<any>) {
@@ -69,7 +69,7 @@ export default function GenerateCharacter() {
           placeholder="Choose a Race"
           value={formData.race}
           onChange={updateFormData}
-          options={seedData.races}
+          options={races}
         />
 
         {formData.race?.length > 0 && data.subraces[formData.race] && (
@@ -91,7 +91,7 @@ export default function GenerateCharacter() {
           placeholder="Choose a Class"
           value={formData.class}
           onChange={updateFormData}
-          options={seedData.classes}
+          options={classes}
         />
 
         <Input

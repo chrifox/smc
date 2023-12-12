@@ -1,10 +1,25 @@
 "use server";
 
-import { getLatency } from "@/lib/db";
+import { getClasses, getLatency, getRaces, getSubraces } from "@/lib/db";
+import GenerateCharacter from "./components/GenerateCharacter";
+import { enrichClasses, enrichRaces } from "./data/enricher";
 
 export default async function Home() {
-  const dbHello = await getLatency();
-  console.log("Get latency:: ", dbHello);
+  const dbLatency = await getLatency();
+  console.log("Get latency:: ", dbLatency);
 
-  return <div>HOME</div>;
+  const dbRaces = await getRaces();
+  const dbSubraces = await getSubraces();
+  const dbClasses = await getClasses();
+
+  console.log("Get races:: ", dbRaces);
+  console.log("Get subraces:: ", dbSubraces);
+  console.log("Get classes:: ", dbClasses);
+
+  const props = {
+    races: enrichRaces(dbRaces),
+    classes: enrichClasses(dbClasses),
+  };
+
+  return <GenerateCharacter {...props} />;
 }
