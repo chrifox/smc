@@ -1,8 +1,9 @@
 "use server";
 
 import { getClasses, getLatency, getRaces, getSubraces } from "@/lib/db";
+import { enrichClasses, enrichRaces, enrichSubRaces } from "./data/enricher";
+
 import GenerateCharacter from "./components/GenerateCharacter";
-import { enrichClasses, enrichRaces } from "./data/enricher";
 
 export default async function Home() {
   const dbLatency = await getLatency();
@@ -18,6 +19,7 @@ export default async function Home() {
 
   const props = {
     races: enrichRaces(dbRaces),
+    subraces: enrichSubRaces(dbSubraces),
     classes: enrichClasses(dbClasses),
   };
 

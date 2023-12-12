@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Button from "./Button";
 import Input from "./Input";
-import seedData from "../seed.json";
 
 type FormDataState = {
   [key: string]: any;
@@ -11,15 +10,17 @@ type FormDataState = {
 
 const defaultFormData = {
   name: "",
+  gender: "",
   race: "",
   class: "",
   height: 70,
+  weight: 70,
+  hair_colour: "#000000",
+  eye_colour: "#000000",
   age: 15,
 };
 
-const data: any = seedData;
-
-export default function GenerateCharacter({ races, classes }) {
+export default function GenerateCharacter({ races, subraces, classes }) {
   const [formData, setFormData] = useState<FormDataState>(defaultFormData);
 
   function updateFormData(event: React.ChangeEvent<any>) {
@@ -63,6 +64,15 @@ export default function GenerateCharacter({ races, classes }) {
         />
 
         <Input
+          type="text"
+          label="Gender"
+          name="gender"
+          placeholder="Enter anything you want I guess"
+          value={formData.gender}
+          onChange={updateFormData}
+        />
+
+        <Input
           type="select"
           label="Race"
           name="race"
@@ -72,7 +82,7 @@ export default function GenerateCharacter({ races, classes }) {
           options={races}
         />
 
-        {formData.race?.length > 0 && data.subraces[formData.race] && (
+        {formData.race?.length > 0 && subraces[formData.race] && (
           <Input
             type="select"
             label="Subrace"
@@ -80,7 +90,7 @@ export default function GenerateCharacter({ races, classes }) {
             placeholder="Choose a Subrace"
             value={formData.subrace}
             onChange={updateFormData}
-            options={data.subraces[formData.race]}
+            options={subraces[formData.race]}
           />
         )}
 
@@ -105,6 +115,16 @@ export default function GenerateCharacter({ races, classes }) {
         />
 
         <Input
+          type="range"
+          label={`Weight (${formData.weight}lbs)`}
+          name="weight"
+          value={formData.weight}
+          onChange={updateFormData}
+          min={10}
+          max={999}
+        />
+
+        <Input
           type="number"
           label="Age"
           name="age"
@@ -112,6 +132,22 @@ export default function GenerateCharacter({ races, classes }) {
           onChange={updateFormData}
           min={1}
           max={9999}
+        />
+
+        <Input
+          type="color"
+          label="Hair Colour"
+          name="hair_colour"
+          value={formData.hair_colour}
+          onChange={updateFormData}
+        />
+
+        <Input
+          type="color"
+          label="Eye Colour"
+          name="eye_colour"
+          value={formData.eye_colour}
+          onChange={updateFormData}
         />
 
         <div className="flex flex-row justify-between mt-4">

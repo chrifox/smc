@@ -42,6 +42,16 @@ const Input = ({ label, options = [], ...props }: InputProps & SelectProps) => {
           />
         </div>
       );
+    case "color":
+      return (
+        <div className="input-group mb-2">
+          <label>{label}</label>
+          <input
+            className={defaultInputClasses.replaceAll("p-2", "")}
+            {...props}
+          />
+        </div>
+      );
     default:
       return (
         <div className="input-group mb-2">
