@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Button from "./Button";
 import Input from "./Input";
+import { randomColour } from "../utils/randomiser";
 
 type FormDataState = {
   [key: string]: any;
@@ -14,9 +15,9 @@ const defaultFormData = {
   race: "",
   class: "",
   height: 70,
-  weight: 70,
-  hair_colour: "#000000",
-  eye_colour: "#000000",
+  weight: 100,
+  hair_colour: "#FFFFFF",
+  eye_colour: "#FFFFFF",
   age: 15,
 };
 
@@ -39,6 +40,12 @@ export default function GenerateCharacter({ races, subraces, classes }) {
 
   function handleRandomise() {
     // write the randomiser function
+
+    // TESTING
+    setFormData((previousFormData) => ({
+      ...previousFormData,
+      hair_colour: randomColour(500000),
+    }));
   }
 
   function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
@@ -110,8 +117,8 @@ export default function GenerateCharacter({ races, subraces, classes }) {
           name="height"
           value={formData.height}
           onChange={updateFormData}
-          min={36}
-          max={120}
+          min={1}
+          max={144}
         />
 
         <Input
