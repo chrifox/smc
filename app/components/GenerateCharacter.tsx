@@ -4,9 +4,17 @@ import { useEffect, useState } from "react";
 import Button from "./Button";
 import Input from "./Input";
 import { randomColour } from "../utils/randomiser";
+import { Subrace } from "../data/types";
+// import { PlayableClass, Race, Subrace } from "../data/types";
 
 type FormDataState = {
   [key: string]: any;
+};
+
+type GenerateCharacterProps = {
+  races: { label: string; value: string }[]; // Race[];
+  subraces: { label: string; value: string; race: string }[]; // Subrace[];
+  classes: { label: string; value: string }[]; // PlayableClass[];
 };
 
 const defaultFormData = {
@@ -21,8 +29,14 @@ const defaultFormData = {
   age: 15,
 };
 
-export default function GenerateCharacter({ races, subraces, classes }) {
+export default function GenerateCharacter({
+  races,
+  subraces,
+  classes,
+}: GenerateCharacterProps) {
   const [formData, setFormData] = useState<FormDataState>(defaultFormData);
+
+  let subrace;
 
   function updateFormData(event: React.ChangeEvent<any>) {
     console.log("update", event.target.value);
@@ -48,16 +62,27 @@ export default function GenerateCharacter({ races, subraces, classes }) {
     }));
   }
 
+  function getSubrace(
+    subraces: { label: string; value: string; race: string }[],
+    race: string
+  ) {
+    return subraces.filter(
+      (s: { label: string; value: string; race: string }) => s.race === race
+    );
+  }
+
   function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
     event.preventDefault();
   }
 
   useEffect(() => {
-    console.log("STATE: ", formData);
+    console.log("STATE: ", formData, subraces);
+
+    subrace = getSubrace(subraces, formData.race);
   }, [formData]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-16">
+    <div className="flex flex-col items-center">
       <h1 className="mb-4">NPC Generator</h1>
 
       <form className="min-w-[25vw]" onSubmit={handleSubmit}>
@@ -89,7 +114,7 @@ export default function GenerateCharacter({ races, subraces, classes }) {
           options={races}
         />
 
-        {formData.race?.length > 0 && subraces[formData.race] && (
+        {formData.race?.length > 0 && subrace && (
           <Input
             type="select"
             label="Subrace"
@@ -97,7 +122,7 @@ export default function GenerateCharacter({ races, subraces, classes }) {
             placeholder="Choose a Subrace"
             value={formData.subrace}
             onChange={updateFormData}
-            options={subraces[formData.race]}
+            options={subrace}
           />
         )}
 
@@ -166,6 +191,6 @@ export default function GenerateCharacter({ races, subraces, classes }) {
           />
         </div>
       </form>
-    </main>
+    </div>
   );
 }

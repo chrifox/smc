@@ -1,4 +1,5 @@
 import { neon } from "@neondatabase/serverless";
+import { createTables } from "./tables";
 
 const dburl = process.env.DATABASE_URL || "";
 
@@ -14,24 +15,7 @@ export async function getLatency() {
 }
 
 async function configureDb() {
-  await sql`CREATE TABLE IF NOT EXISTS "races" (
-    "id" serial PRIMARY KEY NOT NULL,
-    "name" text NOT NULL,
-    "created_at" timestamp DEFAULT now()
-  )`;
-
-  await sql`CREATE TABLE IF NOT EXISTS "subraces" (
-    "id" serial PRIMARY KEY NOT NULL,
-    "name" text NOT NULL,
-    "created_at" timestamp DEFAULT now()
-  )`;
-
-  await sql`CREATE TABLE IF NOT EXISTS "classes" (
-    "id" serial PRIMARY KEY NOT NULL,
-    "name" text NOT NULL,
-    "race" text NOT NULL,
-    "created_at" timestamp DEFAULT now()
-  )`;
+  createTables(sql);
 }
 
 configureDb().catch((error) => console.log("DB error:: ", error));
@@ -48,5 +32,11 @@ export async function getSubraces() {
 
 export async function getClasses() {
   const dbResponse = await sql`SELECT * FROM "classes"`;
+  return dbResponse;
+}
+
+export async function getCharacters(userId: number) {
+  const dbResponse =
+    await sql`SELECT * FROM "characters" WHERE user_id = ${userId}`;
   return dbResponse;
 }
