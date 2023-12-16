@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import Menu from "./components/Menu";
+import UserContextProvider from "./context/UserContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,7 +12,9 @@ export const metadata: Metadata = {
   description: "Custom D&D player app",
 };
 
-const dummyLinks = [{ path: "/", label: "Home" }];
+const links = [
+  { path: "/user/player/generate-character", label: "Generate Character" },
+];
 
 export default function RootLayout({
   children,
@@ -20,12 +23,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} min-h-screen`}>
         <header>
-          <Menu links={dummyLinks} />
+          <Menu links={links} />
         </header>
-        <main>{children}</main>
-        <footer>footer</footer>
+        <UserContextProvider>
+          <main className="pt-4 px-8 pb-8">{children}</main>
+        </UserContextProvider>
       </body>
     </html>
   );
