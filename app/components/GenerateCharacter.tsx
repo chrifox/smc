@@ -4,17 +4,20 @@ import { useEffect, useState } from "react";
 import Button from "./Button";
 import Input from "./Input";
 import { randomColour } from "../utils/randomiser";
-import { Subrace } from "../data/types";
-// import { PlayableClass, Race, Subrace } from "../data/types";
+import { InputOption } from "./types";
 
 type FormDataState = {
   [key: string]: any;
 };
 
+interface SubraceOption extends InputOption {
+  race_id: number;
+}
+
 type GenerateCharacterProps = {
-  races: { label: string; value: string }[]; // Race[];
-  subraces: { label: string; value: string; race: string }[]; // Subrace[];
-  classes: { label: string; value: string }[]; // PlayableClass[];
+  races: InputOption[];
+  subraces: SubraceOption[];
+  classes: InputOption[];
 };
 
 const defaultFormData = {
@@ -23,9 +26,9 @@ const defaultFormData = {
   race: "",
   class: "",
   height: 70,
-  weight: 100,
-  hair_colour: "#FFFFFF",
-  eye_colour: "#FFFFFF",
+  weight: 120,
+  hair_colour: "#CCC",
+  eye_colour: "#CCC",
   age: 15,
 };
 
@@ -35,8 +38,7 @@ export default function GenerateCharacter({
   classes,
 }: GenerateCharacterProps) {
   const [formData, setFormData] = useState<FormDataState>(defaultFormData);
-
-  let subrace;
+  const [subraceOptions, setSubraceOptions] = useState<SubraceOption[]>([]);
 
   function updateFormData(event: React.ChangeEvent<any>) {
     console.log("update", event.target.value);
@@ -62,13 +64,11 @@ export default function GenerateCharacter({
     }));
   }
 
-  function getSubrace(
-    subraces: { label: string; value: string; race: string }[],
-    race: string
-  ) {
-    return subraces.filter(
-      (s: { label: string; value: string; race: string }) => s.race === race
-    );
+  function getSubraceOptions(race_id: number) {
+    return subraces.filter((s: SubraceOption) => {
+      const { race_id: raceId, ...subRaceOption } = s;
+      return s.race_id === race_id ? subRaceOption : null;
+    });
   }
 
   function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
@@ -76,10 +76,18 @@ export default function GenerateCharacter({
   }
 
   useEffect(() => {
-    console.log("STATE: ", formData, subraces);
-
-    subrace = getSubrace(subraces, formData.race);
+    console.log("STATE: ", formData);
   }, [formData]);
+
+  useEffect(() => {
+    if (formData.race) {
+      const race = races.find((race) => race.value === formData.race);
+      if (race?.id) {
+        const newSubraceOptions = getSubraceOptions(race.id);
+        setSubraceOptions(newSubraceOptions);
+      }
+    }
+  }, [formData.race]);
 
   return (
     <div className="flex flex-col items-center">
@@ -114,7 +122,7 @@ export default function GenerateCharacter({
           options={races}
         />
 
-        {formData.race?.length > 0 && subrace && (
+        {formData.race?.length > 0 && subraceOptions?.length > 0 && (
           <Input
             type="select"
             label="Subrace"
@@ -122,7 +130,7 @@ export default function GenerateCharacter({
             placeholder="Choose a Subrace"
             value={formData.subrace}
             onChange={updateFormData}
-            options={subrace}
+            options={subraceOptions}
           />
         )}
 

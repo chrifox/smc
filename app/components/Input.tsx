@@ -19,7 +19,6 @@ const Input = ({ label, options = [], ...props }: InputProps & SelectProps) => {
           <label>{label}</label>
           <select
             className={defaultInputClasses}
-            defaultValue={props.value}
             {...props}
           >
             <option value="">{props.placeholder}</option>

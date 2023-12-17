@@ -8,15 +8,12 @@ import {
 } from "../../../data/enricher";
 
 import GenerateCharacter from "../../../components/GenerateCharacter";
+import { PlayableClass, Race, Subrace } from "@/app/data/types";
 
 export default async function CharacterGenerator() {
-  const dbRaces = await getRaces();
-  const dbSubraces = await getSubraces();
-  const dbClasses = await getClasses();
-
-  console.log("Get races:: ", dbRaces);
-  console.log("Get subraces:: ", dbSubraces);
-  console.log("Get classes:: ", dbClasses);
+  const dbRaces = (await getRaces()) as Race[];
+  const dbSubraces = (await getSubraces()) as Subrace[];
+  const dbClasses = (await getClasses()) as PlayableClass[];
 
   const props = {
     races: enrichRaces(dbRaces),

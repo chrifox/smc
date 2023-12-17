@@ -3,6 +3,7 @@ import { PlayableClass, Race, Subrace } from "./types";
 export function enrichRaces(races: Race[]) {
   const enrichedRaces = races.map((r: Race) => {
     return {
+      id: r.id,
       value: r.name,
       label: r.display_name,
     };
@@ -13,11 +14,11 @@ export function enrichRaces(races: Race[]) {
 
 export function enrichSubRaces(subraces: Subrace[]) {
   const enrichedSubraces = subraces.map((r: Subrace) => {
-    console.log(r);
     return {
+      id: r.id,
       value: r.name,
       label: r.display_name,
-      race: r.race,
+      race_id: r.race_id,
     };
   });
 
@@ -27,6 +28,7 @@ export function enrichSubRaces(subraces: Subrace[]) {
 export function enrichClasses(classes: PlayableClass[]) {
   const enrichedClasses = classes.map((c: PlayableClass) => {
     return {
+      id: c.id,
       value: c.name,
       label: c.display_name,
     };

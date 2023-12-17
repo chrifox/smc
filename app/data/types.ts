@@ -1,3 +1,5 @@
+// types as they come from SQL
+
 export type Race = {
   id: number;
   name: string;
@@ -10,8 +12,8 @@ export type Race = {
 export type Subrace = {
   id: number;
   name: string;
-  race: string;
   display_name: string;
+  race_id: number;
   created_at: string;
 };
 
