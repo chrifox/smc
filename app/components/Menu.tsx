@@ -1,4 +1,8 @@
+"use client";
+
 import { HomeRounded, PersonRounded } from "@mui/icons-material";
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 
 type Link = {
   path: string;
@@ -10,6 +14,8 @@ type MenuProps = {
 };
 
 const Menu = ({ links }: MenuProps) => {
+  const { user } = useContext(UserContext);
+
   return (
     <ul className="px-4 flex flex-row justify-start items-center w-full bg-gray-900">
       <li>
@@ -28,6 +34,7 @@ const Menu = ({ links }: MenuProps) => {
 
       <li className="ml-auto">
         <a className="flex p-2" href="/user/account">
+          <span>{user.email}</span>
           <PersonRounded />
         </a>
       </li>

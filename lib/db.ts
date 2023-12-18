@@ -40,3 +40,39 @@ export async function getCharacters(userId: number) {
     await sql`SELECT * FROM "characters" WHERE user_id = ${userId}`;
   return dbResponse;
 }
+
+export async function getUser(email: string) {
+  const [user] =
+    await sql`SELECT id, email, level FROM users WHERE email = ${email}`;
+
+  return user ? user : null;
+}
+
+export async function getUserAccount(userId: number) {
+  const [user] = await sql`SELECT * FROM user_details WHERE id = ${userId}`;
+
+  return user ? user : null;
+}
+
+export async function authenticateUser(email: string, password: string) {
+  const [user] =
+    await sql`SELECT id, email, password FROM users WHERE email = ${email} AND password = ${password}`;
+
+  if (user) {
+  }
+}
+
+export async function createUser(email: string, password: string) {
+  const user = await getUser(email);
+
+  if (user) {
+    return { message: "USER EXISTS", user };
+  }
+
+  await sql`INSERT INTO users (email, password)
+  VALUES (${email}, ${password})`;
+
+  const createdUser = await getUser(email);
+
+  return { message: "USER CREATED", user: createdUser };
+}

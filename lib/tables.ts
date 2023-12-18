@@ -3,7 +3,7 @@ import { NeonQueryFunction } from "@neondatabase/serverless";
 export async function createTables(sql: NeonQueryFunction<false, false>) {
   await sql`CREATE TABLE IF NOT EXISTS "users" (
     "id" serial PRIMARY KEY NOT NULL,
-    "name" text NOT NULL,
+    "name" text,
     "email" text NOT NULL,
     "password" text NOT NULL,
     "level" varchar(1) NOT NULL DEFAULT 0,

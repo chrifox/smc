@@ -2,23 +2,43 @@
 
 import Input from "./Input";
 import Form from "./Form";
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 
 const defaultFormData = {
   email: "",
   password: "",
 };
 
-type SignInProps = {};
+type SignUpProps = {};
 
-const SignIn = ({}: SignInProps) => {
+const SignUp = ({}: SignUpProps) => {
+  const { setUser } = useContext(UserContext);
+
+  async function handleSignUp(formData: FormData) {
+    await fetch("/api/user", {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        setUser(json)
+        console.log(json);
+      })
+      .catch(console.error);
+  }
+
   return (
     <div className="flex flex-col items-center">
-      <h1 className="mb-4">Sign In</h1>
+      <h1 className="mb-4">Sign Up</h1>
 
       <Form
         defaultFormData={defaultFormData}
-        onSubmit={console.log}
-        submitLabel="Sign In"
+        onSubmit={handleSignUp}
+        submitLabel="Sign Up"
       >
         {({ formData, updateFormData }) => (
           <>
@@ -35,19 +55,15 @@ const SignIn = ({}: SignInProps) => {
               type="password"
               label="Password"
               name="password"
-              placeholder="Enter your password"
+              placeholder="Enter a password"
               value={formData.password}
               onChange={updateFormData}
             />
           </>
         )}
       </Form>
-
-      <p className="mt-8">
-        Don't have an account? <a href="/user/sign-up">Sign Up</a>
-      </p>
     </div>
   );
 };
 
-export default SignIn;
+export default SignUp;
