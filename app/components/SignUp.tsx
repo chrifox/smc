@@ -1,19 +1,21 @@
 "use client";
 
+import { useContext, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 import Input from "./Input";
 import Form from "./Form";
-import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 
 const defaultFormData = {
   email: "",
-  password: "",
 };
 
 type SignUpProps = {};
 
 const SignUp = ({}: SignUpProps) => {
-  const { setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  const router = useRouter();
 
   async function handleSignUp(formData: FormData) {
     await fetch("/api/user", {
@@ -25,11 +27,16 @@ const SignUp = ({}: SignUpProps) => {
     })
       .then((res) => res.json())
       .then((json) => {
-        setUser(json)
-        console.log(json);
+        setUser(json.user);
       })
       .catch(console.error);
   }
+
+  useEffect(() => {
+    if (user?.email) {
+      router.push("/user/account");
+    }
+  }, [user]);
 
   return (
     <div className="flex flex-col items-center">

@@ -1,23 +1,50 @@
 "use client";
 
+import { useContext, useEffect } from "react";
+
 import Input from "./Input";
 import Form from "./Form";
+import { UserContext } from "../context/UserContext";
+import { useRouter } from "next/navigation";
 
 const defaultFormData = {
   email: "",
-  password: "",
 };
 
 type SignInProps = {};
 
 const SignIn = ({}: SignInProps) => {
+  const { user, setUser } = useContext(UserContext);
+  const router = useRouter();
+
+  async function handleSignIn(formData: FormData) {
+    await fetch("/api/user", {
+      method: "POST",
+      body: JSON.stringify({ ...formData, authenticate: true }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        setUser(json.user);
+      })
+      .catch(console.error);
+  }
+
+  useEffect(() => {
+    if (user?.email) {
+      router.push("/user/account");
+    }
+  }, [user]);
+
   return (
     <div className="flex flex-col items-center">
       <h1 className="mb-4">Sign In</h1>
 
       <Form
         defaultFormData={defaultFormData}
-        onSubmit={console.log}
+        onSubmit={handleSignIn}
         submitLabel="Sign In"
       >
         {({ formData, updateFormData }) => (

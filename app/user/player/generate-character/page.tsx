@@ -1,14 +1,14 @@
 "use server";
 
-import { getClasses, getRaces, getSubraces } from "@/lib/db";
+import { getClasses, getRaces, getSubraces } from "@/services/neon/db";
 import {
   enrichClasses,
   enrichRaces,
   enrichSubRaces,
-} from "../../../data/enricher";
+} from "../../../utils/enricher";
 
 import GenerateCharacter from "../../../components/GenerateCharacter";
-import { PlayableClass, Race, Subrace } from "@/app/data/types";
+import { PlayableClass, Race, Subrace } from "@/services/neon/types";
 
 export default async function CharacterGenerator() {
   const dbRaces = (await getRaces()) as Race[];

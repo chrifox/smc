@@ -34,7 +34,7 @@ const Menu = ({ links }: MenuProps) => {
 
       <li className="ml-auto">
         <a className="flex p-2" href="/user/account">
-          <span>{user.email}</span>
+          <span className="mr-2">{user?.email || ""}</span>
           <PersonRounded />
         </a>
       </li>

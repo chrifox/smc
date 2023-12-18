@@ -1,4 +1,4 @@
-import { PlayableClass, Race, Subrace } from "./types";
+import { PlayableClass, Race, Subrace } from "../../services/neon/types";
 
 export function enrichRaces(races: Race[]) {
   const enrichedRaces = races.map((r: Race) => {

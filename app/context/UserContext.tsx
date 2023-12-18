@@ -1,11 +1,12 @@
 "use client";
 
 import { createContext, useEffect, useState } from "react";
-import { User } from "../data/types";
+import { User } from "../../services/neon/types";
 
 type UserContextValue = {
   user: User;
   setUser: any;
+  defaultUser: User; // for sign out
 };
 
 const defaultUser = {
@@ -16,27 +17,44 @@ const defaultUser = {
 export const UserContext = createContext({
   user: defaultUser,
   setUser: console.log,
+  defaultUser,
 });
 
-const UserContextProvider = ({ children }: { children: JSX.Element }) => {
-  const [user, setUser] = useState<User>(defaultUser);
+type UserContextProviderProps = {
+  loggedInUser?: User;
+  children: JSX.Element;
+};
 
-  useEffect(() => {
-    if (user) {
-      console.log("context", user);
-
-      // TODO: set cookie
-    }
-  }, [user]);
+const UserContextProvider = ({
+  loggedInUser,
+  children,
+}: UserContextProviderProps) => {
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User>(loggedInUser || defaultUser);
 
   const userContextValue: UserContextValue = {
     user,
     setUser,
+    defaultUser,
   };
+
+  // setUser from cookie
+  useEffect(() => {
+    (async () => {
+      await fetch("/api/user")
+        .then((res) => res.json())
+        .then(({ user }) => setUser(user))
+        .then(() => {
+          if (user) {
+            setLoading(false);
+          }
+        });
+    })();
+  }, []);
 
   return (
     <UserContext.Provider value={userContextValue}>
-      {children}
+      {loading ? null : children}
     </UserContext.Provider>
   );
 };

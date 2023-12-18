@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import Button from "./Button";
 
 type FormProps = {
-  defaultFormData: FormData;
-  onSubmit?: (formData: FormData) => void;
+  defaultFormData: { [key: string]: any };
+  onSubmit?: (formData: any) => void;
   submitLabel?: string;
   allowReset?: boolean;
   resetLabel?: string;
@@ -20,7 +20,7 @@ const Form = ({
   onSubmit,
   children,
 }: FormProps) => {
-  const [formData, setFormData] = useState<FormData>(defaultFormData);
+  const [formData, setFormData] = useState(defaultFormData);
 
   function updateFormData(event: React.ChangeEvent<any>) {
     console.log("update", event.target.value);
@@ -59,18 +59,12 @@ const Form = ({
         }`}
       >
         {allowReset && (
-          <Button
-            action={handleReset}
-            label={resetLabel}
-            classes="bg-red-500"
-          />
+          <Button onClick={handleReset} classes="bg-red-500">
+            {resetLabel}
+          </Button>
         )}
 
-        <Button
-          action={() => {}}
-          label={submitLabel}
-          classes="center bg-green-500"
-        />
+        <Button classes="center bg-green-500">{submitLabel}</Button>
       </div>
     </form>
   );

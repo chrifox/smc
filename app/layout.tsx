@@ -24,11 +24,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} min-h-screen`}>
-        <header>
-          <Menu links={links} />
-        </header>
         <UserContextProvider>
-          <main className="pt-4 px-8 pb-8">{children}</main>
+          <>
+            <header>
+              <Menu links={links} />
+            </header>
+            <main className="pt-4 px-8 pb-8">{children}</main>
+          </>
         </UserContextProvider>
       </body>
     </html>

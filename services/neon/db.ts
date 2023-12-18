@@ -48,25 +48,30 @@ export async function getUser(email: string) {
   return user ? user : null;
 }
 
-export async function getUserAccount(userId: number) {
-  const [user] = await sql`SELECT * FROM user_details WHERE id = ${userId}`;
+export async function authenticateUser(email: string, password: string) {
+  const [user] =
+    await sql`SELECT id, email, level FROM users WHERE email = ${email} AND password = ${password}`;
 
   return user ? user : null;
 }
 
-export async function authenticateUser(email: string, password: string) {
-  const [user] =
-    await sql`SELECT id, email, password FROM users WHERE email = ${email} AND password = ${password}`;
+export async function createUser(
+  email: string,
+  password: string,
+  authenticate?: boolean
+) {
+  let user;
 
-  if (user) {
-  }
-}
-
-export async function createUser(email: string, password: string) {
-  const user = await getUser(email);
-
-  if (user) {
-    return { message: "USER EXISTS", user };
+  if (authenticate) {
+    user = await authenticateUser(email, password);
+    if (user) {
+      return { message: "SIGNED IN", user };
+    }
+  } else {
+    user = await getUser(email);
+    if (user) {
+      return { message: "USER EXISTS", user };
+    }
   }
 
   await sql`INSERT INTO users (email, password)

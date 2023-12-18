@@ -1,6 +1,6 @@
 "use server";
 
-import { getLatency } from "@/lib/db";
+import { getLatency } from "@/services/neon/db";
 
 export default async function Home() {
   const dbLatency = await getLatency();
