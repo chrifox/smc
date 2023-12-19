@@ -32,13 +32,22 @@ export type User = {
   email: string;
   password?: string;
   created_at?: string;
-}
+};
 
 export type Character = {
   id: number;
+  user_id: number;
   name: string;
-  race_id: number;
-  class_id: number;
+  gender?: string;
+  race: string;
+  subrace?: string;
+  class: string;
   level: number;
+  hair_colour?: string;
+  eye_colour?: string;
+  skin_colour?: string;
+  age: number;
+  height: number;
+  weight: number;
   created_at?: string;
-}
+};

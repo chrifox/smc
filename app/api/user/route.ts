@@ -40,7 +40,10 @@ export async function POST(request: NextRequest) {
   const data = await createUser(req.email, req.password, req.authenticate);
 
   if (data.user) {
-    cookieStore.set("email", data.user.email);
+    const timeToExpire = 7 * 24 * 60 * 60 * 1000;
+    cookieStore.set("email", data.user.email, {
+      expires: Date.now() + timeToExpire,
+    });
   }
 
   return NextResponse.json(data);

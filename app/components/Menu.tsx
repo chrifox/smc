@@ -1,7 +1,7 @@
 "use client";
 
+import { useContext, useEffect, useState } from "react";
 import { HomeRounded, PersonRounded } from "@mui/icons-material";
-import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 
 type Link = {
@@ -9,12 +9,26 @@ type Link = {
   label: string;
 };
 
-type MenuProps = {
-  links: Link[];
-};
+type MenuProps = {};
 
-const Menu = ({ links }: MenuProps) => {
+const Menu = ({}: MenuProps) => {
   const { user } = useContext(UserContext);
+  const [links, setLinks] = useState<Link[]>([]);
+
+  useEffect(() => {
+    if (user) {
+      setLinks([
+        {
+          path: "/user/player/generate-character",
+          label: "Generate Character",
+        },
+        {
+          path: "/user/player/characters",
+          label: "Characters",
+        },
+      ]);
+    }
+  }, [user]);
 
   return (
     <ul className="px-4 flex flex-row justify-start items-center w-full bg-gray-900">

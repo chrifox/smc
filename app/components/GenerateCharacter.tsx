@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Input from "./Input";
 // import { randomColour } from "../utils/randomiser";
 import { InputOption } from "./types";
 import Form from "./Form";
+import { UserContext } from "../context/UserContext";
+import { useRouter } from "next/navigation";
 
 interface SubraceOption extends InputOption {
   race_id: number;
@@ -25,6 +27,7 @@ const defaultFormData = {
   weight: 120,
   hair_colour: "#997711",
   eye_colour: "#4499AA",
+  skin_colour: "#EE9955",
   age: 15,
 };
 
@@ -33,7 +36,9 @@ export default function GenerateCharacter({
   subraces,
   classes,
 }: GenerateCharacterProps) {
+  const { user } = useContext(UserContext);
   const [subraceOptions, setSubraceOptions] = useState<SubraceOption[]>([]);
+  const router = useRouter();
 
   // function handleRandomise() {
   // write the randomiser function
@@ -61,11 +66,29 @@ export default function GenerateCharacter({
   //   }
   // }, [formData.race]);
 
+  async function handleSubmit(formData: FormData) {
+    await fetch("/api/character", {
+      method: "POST",
+      body: JSON.stringify({ character: formData, userId: user.id }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(() => {
+        router.push("/user/player/characters");
+      })
+      .catch(console.error);
+  }
+
   return (
     <div className="flex flex-col items-center">
       <h1 className="mb-4">NPC Generator</h1>
 
-      <Form allowReset defaultFormData={defaultFormData} onSubmit={console.log}>
+      <Form
+        allowReset
+        defaultFormData={defaultFormData}
+        onSubmit={handleSubmit}
+      >
         {({ formData, updateFormData }) => (
           <>
             <Input
@@ -75,6 +98,7 @@ export default function GenerateCharacter({
               placeholder="Enter a name"
               value={formData.name}
               onChange={updateFormData}
+              required
             />
 
             <Input
@@ -94,6 +118,7 @@ export default function GenerateCharacter({
               value={formData.race}
               onChange={updateFormData}
               options={races}
+              required
             />
 
             {formData.race?.length > 0 && subraceOptions?.length > 0 && (
@@ -116,6 +141,7 @@ export default function GenerateCharacter({
               value={formData.class}
               onChange={updateFormData}
               options={classes}
+              required
             />
 
             <Input
@@ -126,6 +152,7 @@ export default function GenerateCharacter({
               onChange={updateFormData}
               min={1}
               max={144}
+              required
             />
 
             <Input
@@ -136,6 +163,7 @@ export default function GenerateCharacter({
               onChange={updateFormData}
               min={10}
               max={999}
+              required
             />
 
             <Input
@@ -146,6 +174,7 @@ export default function GenerateCharacter({
               onChange={updateFormData}
               min={1}
               max={9999}
+              required
             />
 
             <Input
@@ -161,6 +190,14 @@ export default function GenerateCharacter({
               label="Eye Colour"
               name="eye_colour"
               value={formData.eye_colour}
+              onChange={updateFormData}
+            />
+
+            <Input
+              type="color"
+              label="Skin Colour"
+              name="skin_colour"
+              value={formData.skin_colour}
               onChange={updateFormData}
             />
           </>

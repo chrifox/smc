@@ -56,6 +56,7 @@ const SignUp = ({}: SignUpProps) => {
               placeholder="Enter your email address"
               value={formData.email}
               onChange={updateFormData}
+              required
             />
 
             <Input
@@ -65,6 +66,7 @@ const SignUp = ({}: SignUpProps) => {
               placeholder="Enter a password"
               value={formData.password}
               onChange={updateFormData}
+              required
             />
           </>
         )}

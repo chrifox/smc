@@ -23,8 +23,6 @@ const Form = ({
   const [formData, setFormData] = useState(defaultFormData);
 
   function updateFormData(event: React.ChangeEvent<any>) {
-    console.log("update", event.target.value);
-
     setFormData((previousFormData) => ({
       ...previousFormData,
       [event.target.name]: event.target.value,
@@ -32,8 +30,6 @@ const Form = ({
   }
 
   function handleReset() {
-    // console.log("FORM RESET");
-
     setFormData(defaultFormData);
   }
 
@@ -45,9 +41,9 @@ const Form = ({
     }
   }
 
-  useEffect(() => {
-    // console.log("STATE: ", formData);
-  }, [formData]);
+  // useEffect(() => {
+  // console.log("STATE: ", formData);
+  // }, [formData]);
 
   return (
     <form className="min-w-[25vw]" onSubmit={handleSubmit}>
