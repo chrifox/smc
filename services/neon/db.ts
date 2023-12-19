@@ -108,3 +108,10 @@ export async function createCharacter(character: Character, userId: number) {
 
   return { message: "CREATED CHARACTER" };
 }
+
+export async function deleteCharacter(characterId: number) {
+  const deleteCharacter =
+    await sql`DELETE FROM characters WHERE id = ${characterId}`;
+
+  return { message: "DELETED CHARACTER" };
+}

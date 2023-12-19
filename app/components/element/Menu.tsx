@@ -2,7 +2,7 @@
 
 import { useContext, useEffect, useState } from "react";
 import { HomeRounded, PersonRounded } from "@mui/icons-material";
-import { UserContext } from "../context/UserContext";
+import { UserContext } from "../../context/UserContext";
 
 type Link = {
   path: string;
@@ -19,8 +19,8 @@ const Menu = ({}: MenuProps) => {
     if (user) {
       setLinks([
         {
-          path: "/user/player/generate-character",
-          label: "Generate Character",
+          path: "/user/player/create-character",
+          label: "Create Character",
         },
         {
           path: "/user/player/characters",

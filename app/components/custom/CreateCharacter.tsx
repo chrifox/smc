@@ -1,12 +1,13 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
-import Input from "./Input";
+import Input from "../element/Input";
 // import { randomColour } from "../utils/randomiser";
-import { InputOption } from "./types";
-import Form from "./Form";
-import { UserContext } from "../context/UserContext";
+import { InputOption } from "../types";
+import Form from "../element/Form";
+import { UserContext } from "../../context/UserContext";
 import { useRouter } from "next/navigation";
+import { getReadableHeight, getReadableWeight } from "@/app/utils/character";
 
 interface SubraceOption extends InputOption {
   race_id: number;
@@ -31,11 +32,11 @@ const defaultFormData = {
   age: 15,
 };
 
-export default function GenerateCharacter({
+const CreateCharacter = ({
   races,
   subraces,
   classes,
-}: GenerateCharacterProps) {
+}: GenerateCharacterProps) => {
   const { user } = useContext(UserContext);
   const [subraceOptions, setSubraceOptions] = useState<SubraceOption[]>([]);
   const router = useRouter();
@@ -81,13 +82,12 @@ export default function GenerateCharacter({
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <h1 className="mb-4">NPC Generator</h1>
-
+    <div>
       <Form
-        allowReset
         defaultFormData={defaultFormData}
         onSubmit={handleSubmit}
+        submitLabel="Save"
+        allowReset
       >
         {({ formData, updateFormData }) => (
           <>
@@ -146,7 +146,7 @@ export default function GenerateCharacter({
 
             <Input
               type="range"
-              label={`Height (${formData.height}in)`}
+              label={`Height (${getReadableHeight(formData.height)})`}
               name="height"
               value={formData.height}
               onChange={updateFormData}
@@ -157,7 +157,7 @@ export default function GenerateCharacter({
 
             <Input
               type="range"
-              label={`Weight (${formData.weight}lbs)`}
+              label={`Weight (${getReadableWeight(formData.weight)})`}
               name="weight"
               value={formData.weight}
               onChange={updateFormData}
@@ -205,4 +205,6 @@ export default function GenerateCharacter({
       </Form>
     </div>
   );
-}
+};
+
+export default CreateCharacter;

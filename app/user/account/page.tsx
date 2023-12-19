@@ -4,7 +4,7 @@ import { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { UserContext } from "@/app/context/UserContext";
-import Button from "@/app/components/Button";
+import Button from "@/app/components/element/Button";
 
 const Account = () => {
   const { user, setUser, defaultUser } = useContext(UserContext);

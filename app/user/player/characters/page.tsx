@@ -3,44 +3,44 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/app/context/UserContext";
 import { Character } from "@/services/neon/types";
-
-const CharacterDetail = ({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) => (
-  <div className="bg-blue-900 px-4 py-2">
-    {label}: {value}
-  </div>
-);
+import CharacterList from "@/app/components/custom/CharacterList";
 
 const Characters = () => {
   const { user } = useContext(UserContext);
   const [characters, setCharacters] = useState<Character[]>([]);
 
+  async function handleDeleteCharacter(characterId: number) {
+    confirm("There is no way to recover a deleted character, are you sure?");
+
+    await fetch(`/api/character?id=${characterId}`, {
+      method: "DELETE",
+    });
+
+    await getUserCharacters();
+  }
+
+  async function getUserCharacters() {
+    await fetch(`/api/character?id=${user.id}`)
+      .then((res) => res.json())
+      .then((json) => setCharacters(json.data));
+  }
+
   useEffect(() => {
     if (user?.id) {
       (async function () {
-        await fetch(`/api/character?id=${user.id}`)
-          .then((res) => res.json())
-          .then((json) => setCharacters(json.data));
+        await getUserCharacters();
       })();
     }
   }, [user]);
 
   return (
     <div>
-      {characters.map((character: Character) => (
-        <div key={character.id}>
-          <div className="p-4 bg-gray-900">{character.name}</div>
-          <div className="flex flex-col bg-blue-700">
-            <CharacterDetail label="Race" value={character.race} />
-            <CharacterDetail label="Class" value={character.class} />
-          </div>
-        </div>
-      ))}
+      <h1 className="mb-4">Characters</h1>
+
+      <CharacterList
+        characters={characters}
+        handleDeleteCharacter={handleDeleteCharacter}
+      />
     </div>
   );
 };

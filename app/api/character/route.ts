@@ -1,4 +1,4 @@
-import { createCharacter, getCharacters } from "@/services/neon/db";
+import { createCharacter, deleteCharacter, getCharacters } from "@/services/neon/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -20,4 +20,17 @@ export async function POST(request: NextRequest) {
   const data = await createCharacter(req.character, req.userId);
 
   return NextResponse.json({ message: "CHARACTER SAVED" });
+}
+
+export async function DELETE(request: NextRequest) {
+  const url = new URL(request.url);
+  const characterId = url.searchParams.get("id");
+
+  if (characterId) {
+    const data = await deleteCharacter(parseInt(characterId))
+
+    return NextResponse.json({ message: "CHARACTER DELETED" })
+  }
+
+  return NextResponse.json({ message: "MISSING ID" });
 }

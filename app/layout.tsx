@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import Menu from "./components/Menu";
+import Menu from "./components/element/Menu";
 import UserContextProvider from "./context/UserContext";
 
 import "./globals.css";
@@ -26,7 +26,9 @@ export default function RootLayout({
             <header>
               <Menu />
             </header>
-            <main className="pt-4 px-8 pb-8">{children}</main>
+            <main className="pt-4 px-8 pb-8">
+              <div className="flex flex-col items-center">{children}</div>
+            </main>
           </>
         </UserContextProvider>
       </body>

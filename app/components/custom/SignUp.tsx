@@ -3,9 +3,9 @@
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import Input from "./Input";
-import Form from "./Form";
-import { UserContext } from "../context/UserContext";
+import Input from "../element/Input";
+import Form from "../element/Form";
+import { UserContext } from "../../context/UserContext";
 
 const defaultFormData = {
   email: "",
