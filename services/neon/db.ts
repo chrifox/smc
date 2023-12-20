@@ -77,6 +77,12 @@ export async function createUser(
   return { message: "USER CREATED", user: createdUser };
 }
 
+export async function getCharacter(characterId: number) {
+  const [character] =
+    await sql`SELECT * FROM "characters" WHERE id = ${characterId}`;
+  return character;
+}
+
 export async function getCharacters(userId: number) {
   const dbResponse =
     await sql`SELECT * FROM "characters" WHERE user_id = ${userId}`;

@@ -3,9 +3,9 @@ import {
   enrichClasses,
   enrichRaces,
   enrichSubRaces,
-} from "../../../utils/enricher";
+} from "../../../../utils/enricher";
 
-import GenerateCharacter from "../../../components/custom/CreateCharacter";
+import GenerateCharacter from "../../../../components/custom/CreateCharacter";
 import { PlayableClass, Race, Subrace } from "@/services/neon/types";
 
 const CreateCharacter = async () => {

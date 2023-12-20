@@ -19,11 +19,11 @@ const Menu = ({}: MenuProps) => {
     if (user) {
       setLinks([
         {
-          path: "/user/player/create-character",
+          path: "/user/player/character/create",
           label: "Create Character",
         },
         {
-          path: "/user/player/characters",
+          path: "/user/player/character/list",
           label: "Characters",
         },
       ]);
