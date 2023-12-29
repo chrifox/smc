@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { PageProps } from "@/app/types";
 import { Character } from "@/services/neon/types";
-import CharacterSheet from "@/app/components/custom/CharacterSheet";
+import CharacterSheet from "@/app/components/custom/CharacterSheet/CharacterSheet";
 
 const ViewCharacter = ({ searchParams }: PageProps) => {
   const { cid } = searchParams;
