@@ -20,7 +20,6 @@ type BasicAttacksProps = { attacks: Attack[] };
 const AttackRenderer = ({ attack }: { attack: Attack }) => {
   const [toHit, setToHit] = useState(true);
   const [hitRoll, setHitRoll] = useState(0);
-  const [hitSuccess, setHitSuccess] = useState(false);
   const [damageRoll, setDamageRoll] = useState(0);
 
   const { name, dice_type, dice_qty, attack_modifier, damage_modifier } =

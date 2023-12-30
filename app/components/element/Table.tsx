@@ -41,7 +41,9 @@ const Table = ({
         {rows.map((row: any) => (
           <tr
             key={row.id}
-            className={`bg-[${getClassColour(row.class)}]`}
+            className={`bg-[${getClassColour(row.class)}] ${
+              rowAction ? "cursor-pointer" : ""
+            }`}
             onClick={rowAction ? () => rowAction(row.id) : undefined}
           >
             {Object.entries(row).map(([key, value]: [string, any]) => (
