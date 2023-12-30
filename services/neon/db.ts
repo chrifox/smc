@@ -21,14 +21,31 @@ async function configureDb() {
 
 configureDb().catch((error) => console.log("DB error:: ", error));
 
+export async function getRace(race: string) {
+  const [raceDetails] = await sql`SELECT * FROM "races" WHERE name = ${race}`;
+  return raceDetails;
+}
+
 export async function getRaces() {
   const dbResponse = await sql`SELECT * FROM "races"`;
   return dbResponse;
 }
 
+export async function getSubrace(subrace: string) {
+  const [subraceDetails] =
+    await sql`SELECT * FROM "subraces" WHERE name = ${subrace}`;
+  return subraceDetails;
+}
+
 export async function getSubraces() {
   const dbResponse = await sql`SELECT * FROM "subraces"`;
   return dbResponse;
+}
+
+export async function getClass(classname: string) {
+  const [classDetails] =
+    await sql`SELECT * FROM "classes" WHERE name = ${classname}`;
+  return classDetails;
 }
 
 export async function getClasses() {
@@ -104,13 +121,16 @@ export async function createCharacter(character: Character, userId: number) {
     eye_colour,
     skin_colour,
     age,
+    scores: { str, dex, con, int, wis, cha },
   } = character;
+
+  const scoresString = `STR:${str},DEX:${dex},CON:${con},INT:${int},WIS:${wis},CHA:${cha}`;
 
   // can't get this working so just hardcoding every column ... -_-
   // const createdCharacter = await sql`INSERT INTO characters (${keys},user_id) VALUES ('${values}',${userId})`;
   const createdCharacter =
-    await sql`INSERT INTO characters (user_id,name,gender,race,class,height,weight,hair_colour,eye_colour,skin_colour,age)
-  VALUES (${userId},${name},${gender},${race},${playableClass},${height},${weight},${hair_colour},${eye_colour},${skin_colour},${age})`;
+    await sql`INSERT INTO characters (user_id,name,gender,race,class,height,weight,hair_colour,eye_colour,skin_colour,age,scores)
+  VALUES (${userId},${name},${gender},${race},${playableClass},${height},${weight},${hair_colour},${eye_colour},${skin_colour},${age},${scoresString})`;
 
   return { message: "CREATED CHARACTER" };
 }

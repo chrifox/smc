@@ -9,3 +9,7 @@ export function getProficienyBonus(level: number) {
 export function getModifierPretty(modifier: number) {
   return `${modifier > 0 ? `+${modifier}` : modifier}`;
 }
+
+export function getDiceRoll(dice: number) {
+  return Math.floor(Math.random() * dice) + 1;
+}

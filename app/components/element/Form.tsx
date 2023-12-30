@@ -55,12 +55,12 @@ const Form = ({
         }`}
       >
         {allowReset && (
-          <Button onClick={handleReset} classes="bg-red-500">
+          <Button onClick={handleReset} classes="bg-red-700">
             {resetLabel}
           </Button>
         )}
 
-        <Button classes="center bg-green-500">{submitLabel}</Button>
+        <Button classes="center bg-green-700">{submitLabel}</Button>
       </div>
     </form>
   );

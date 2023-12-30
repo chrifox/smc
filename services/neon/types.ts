@@ -6,6 +6,8 @@ export type Race = {
   size: "small" | "medium" | "large";
   speed: number;
   display_name: string;
+  ability1: string;
+  ability2: string;
   created_at?: string;
 };
 
@@ -20,10 +22,10 @@ export type Subrace = {
 export type PlayableClass = {
   id: number;
   name: string;
-  speed: number;
-  hit_dice: "d4" | "d6" | "d8" | "d10" | "d12";
-  saving_throws: string;
   display_name: string;
+  hit_dice: 6 | 8 | 10 | 12;
+  primary_stat: string;
+  saving_throws: string;
   created_at?: string;
 };
 
@@ -32,6 +34,15 @@ export type User = {
   email: string;
   password?: string;
   created_at?: string;
+};
+
+export type AbilityScores = {
+  str: number;
+  dex: number;
+  con: number;
+  int: number;
+  wis: number;
+  cha: number;
 };
 
 export type Character = {
@@ -49,5 +60,6 @@ export type Character = {
   age: number;
   height: number;
   weight: number;
+  scores: AbilityScores;
   created_at?: string;
 };

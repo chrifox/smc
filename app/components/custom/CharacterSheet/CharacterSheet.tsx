@@ -7,15 +7,9 @@ import {
 } from "./utils";
 import InformationCell from "./InformationCell";
 import InformationCellRow from "./InformationCellRow";
+import BasicAttacks, { Attack } from "./BasicAttacks";
 
-const dummyScores = {
-  str: 18,
-  dex: 16,
-  con: 14,
-  int: 12,
-  wis: 10,
-  cha: 8,
-};
+const abilities = ["STR", "DEX", "CON", "INT", "WIS", "CHA"];
 
 const skills = [
   { name: "Athletics", stat: "STR" },
@@ -38,11 +32,35 @@ const skills = [
   { name: "Persuasion", stat: "CHA" },
 ];
 
+const equipment = [
+  "adventurer's pack",
+  "dagger",
+  "holy symbol",
+  "walking stick",
+]; // todo make this editable
+
+const dummyAttacks: Attack[] = [
+  {
+    type: "physical",
+    name: "Dagger",
+    dice_type: 4,
+    dice_qty: 2,
+    attack_modifier: 4,
+    damage_modifier: 2,
+    sneak_attack: true,
+  },
+  {
+    type: "magical",
+    name: "Firebolt",
+    dice_type: 8,
+    dice_qty: 1,
+    attack_modifier: 2,
+    damage_modifier: 0,
+  },
+];
+
 const CharacterSheet = ({ character }: { character: Character & any }) => {
-  let characterDetails = {
-    ...character,
-    scores: dummyScores,
-  };
+  let characterDetails = character;
 
   const dexMod = getAbilityModifier(characterDetails.scores.dex);
 
@@ -51,7 +69,6 @@ const CharacterSheet = ({ character }: { character: Character & any }) => {
     pb: getProficienyBonus(character.level),
     ac: 10 + dexMod, // TODO: account for gear modifiers
     hp: 50,
-    speed: 30, // TODO: get from race
     initiative: dexMod,
   };
 
@@ -66,17 +83,20 @@ const CharacterSheet = ({ character }: { character: Character & any }) => {
         <InformationCell>
           <div>Class: {characterDetails.class}</div>
         </InformationCell>
-      </InformationCellRow>
-
-      <InformationCellRow>
         <InformationCell>
           <div>Level: {characterDetails.level}</div>
         </InformationCell>
+      </InformationCellRow>
+
+      <InformationCellRow>
         <InformationCell>
           <div>PB: {getModifierPretty(characterDetails.pb)}</div>
         </InformationCell>
         <InformationCell>
           <div>HP: {characterDetails.hp}</div>
+        </InformationCell>
+        <InformationCell>
+          <div>Hit Dice: {`d${characterDetails.classDetails.hit_dice}`}</div>
         </InformationCell>
         <InformationCell>
           <div>AC: {characterDetails.ac}</div>
@@ -90,32 +110,35 @@ const CharacterSheet = ({ character }: { character: Character & any }) => {
           </div>
         </InformationCell>
         <InformationCell>
-          <div>Speed: {characterDetails.speed}</div>
+          <div>Speed: {characterDetails.raceDetails.speed}</div>
         </InformationCell>
       </InformationCellRow>
 
       <AbilityScores scores={characterDetails.scores} />
 
       <InformationCellRow label="SAVING THROWS">
-        <InformationCell>
-          <div>STR</div>
-        </InformationCell>
-        <InformationCell>
-          <div>DEX</div>
-        </InformationCell>
-        <InformationCell>
-          <div>CON</div>
-        </InformationCell>
-        <InformationCell>
-          <div>INT</div>
-        </InformationCell>
-        <InformationCell>
-          <div>WIS</div>
-        </InformationCell>
-        <InformationCell>
-          <div>CHA</div>
-        </InformationCell>
+        {abilities.map((ability) => (
+          <InformationCell key={ability}>
+            <div className="flex flex-col items-center">
+              <div>{ability}</div>
+              <div>
+                {getModifierPretty(
+                  getAbilityModifier(
+                    characterDetails.scores[ability.toLowerCase()]
+                  ) +
+                    (characterDetails.classDetails.saving_throws.includes(
+                      ability
+                    )
+                      ? characterDetails.pb
+                      : 0)
+                )}
+              </div>
+            </div>
+          </InformationCell>
+        ))}
       </InformationCellRow>
+
+      <BasicAttacks attacks={dummyAttacks} />
 
       <InformationCellRow label="SKILLS">
         {skills.map(({ name, stat }) => (
@@ -123,6 +146,26 @@ const CharacterSheet = ({ character }: { character: Character & any }) => {
             <div>
               {name}: <span className="text-gray-500">{`(${stat})`} +/-</span>
             </div>
+          </InformationCell>
+        ))}
+      </InformationCellRow>
+
+      <InformationCellRow label="FEATS">
+        <InformationCell>
+          <div>AWESOME AT EVERYTHING</div>
+        </InformationCell>
+      </InformationCellRow>
+
+      <InformationCellRow label="LANGUAGES">
+        <InformationCell>
+          <div>Common</div>
+        </InformationCell>
+      </InformationCellRow>
+
+      <InformationCellRow label="EQUIPMENT">
+        {equipment.map((name) => (
+          <InformationCell key={name} width={6}>
+            <div> {name} </div>
           </InformationCell>
         ))}
       </InformationCellRow>

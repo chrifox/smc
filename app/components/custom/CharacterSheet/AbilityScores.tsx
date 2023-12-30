@@ -32,7 +32,7 @@ const AbilityScore = ({ label, value }: AbilityScoreProps) => {
 
 const AbilityScores = ({ scores }: AbilityScoresProps) => {
   return (
-    <InformationCellRow>
+    <InformationCellRow label="ABILITY SCORES">
       <InformationCell>
         <AbilityScore label="STR" value={scores.str} />
       </InformationCell>

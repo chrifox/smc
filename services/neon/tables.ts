@@ -48,7 +48,7 @@ export async function createTables(sql: NeonQueryFunction<false, false>) {
     "id" serial PRIMARY KEY,
     "name" text NOT NULL,
     "display_name" text NOT NULL,
-    "hit_dice" text NOT NULL,
+    "hit_dice" int NOT NULL,
     "primary_stat" text NOT NULL,
     "saving_throws" text NOT NULL,
     "created_at" timestamp DEFAULT now()

@@ -9,7 +9,7 @@ interface SelectProps extends InputHTMLAttributes<HTMLSelectElement> {
   options?: { label: string; value: string }[];
 }
 
-const defaultInputClasses = "text-black outline-none rounded w-full p-2";
+const defaultInputClasses = "text-black outline-none rounded w-full p-1";
 
 const Input = ({ label, options = [], ...props }: InputProps & SelectProps) => {
   switch (props.type) {
@@ -46,7 +46,7 @@ const Input = ({ label, options = [], ...props }: InputProps & SelectProps) => {
         <div className="input-group mb-2">
           <label>{label}</label>
           <input
-            className={defaultInputClasses.replaceAll("p-2", "")}
+            className={defaultInputClasses.replaceAll("p-1", "")}
             {...props}
           />
         </div>

@@ -3,10 +3,10 @@ type InformationCellProps = {
   children: JSX.Element;
 };
 
-const InformationCell = ({ width = 12, children }: InformationCellProps) => (
+const InformationCell = ({ width = 6, children }: InformationCellProps) => (
   <div className={`w-[${(width / 12) * 100}%]`}>
-    <div className="flex justify-center items-center bg-gray-800 p-1 m-1">
-      {children}
+    <div className="bg-gray-800 border border-gray-600 m-1">
+      <div className="flex justify-center items-center border border-gray-400 p-2">{children}</div>
     </div>
   </div>
 );

@@ -5,7 +5,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   visuallyLink?: boolean;
 }
 
-let buttonClasses = "bg-gray-500 py-2 px-4 rounded",
+let buttonClasses = "bg-gray-700 py-2 px-4 rounded",
   linkClasses = "py-2 px-4";
 
 const Button = ({

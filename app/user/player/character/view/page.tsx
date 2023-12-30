@@ -9,11 +9,55 @@ const ViewCharacter = ({ searchParams }: PageProps) => {
   const { cid } = searchParams;
   const [character, setCharacter] = useState<Character>();
 
+  async function constructCharacterDetails() {
+    let details;
+
+    const character = await fetch(`/api/character?cid=${cid}`)
+      .then((res) => res.json())
+      .then((json) => json.data);
+
+    if (character) {
+      details = character;
+    }
+
+    if (character.race) {
+      details.raceDetails = await fetch(
+        `/api/character/race?race=${character.race}`
+      )
+        .then((res) => res.json())
+        .then((json) => json.data);
+    } else {
+      console.log("no race", character);
+    }
+
+    if (character.class) {
+      details.classDetails = await fetch(
+        `/api/character/class?class=${character.class}`
+      )
+        .then((res) => res.json())
+        .then((json) => json.data);
+    } else {
+      console.log("no class", character);
+    }
+
+    // TEMPORARY while data is inconsistent...
+    if (!details.scores) {
+      details.scores = {
+        str: 18,
+        dex: 16,
+        con: 14,
+        int: 12,
+        wis: 10,
+        cha: 8,
+      };
+    }
+
+    setCharacter(details);
+  }
+
   useEffect(() => {
     (async function () {
-      await fetch(`/api/character?cid=${cid}`)
-        .then((res) => res.json())
-        .then((json) => setCharacter(json.data));
+      await constructCharacterDetails();
     })();
   }, []);
 
