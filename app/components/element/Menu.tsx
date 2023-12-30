@@ -71,6 +71,11 @@ const Menu = ({}: MenuProps) => {
       {menuOpen && (
         <div className="absolute left-0 w-full bg-gray-900">
           <ul className="list-none flex flex-col">
+            <li>
+              <a className="flex p-4" href="/user/account">
+                Account
+              </a>
+            </li>
             {links.map((link: Link) => (
               <li key={link.label}>
                 <a className="flex p-4" href={link.path}>
