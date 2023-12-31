@@ -3,9 +3,9 @@
 export type Race = {
   id: number;
   name: string;
-  size: "small" | "medium" | "large";
-  speed: number;
   display_name: string;
+  size: string;
+  speed: number;
   ability1: string;
   ability2: string;
   created_at?: string;

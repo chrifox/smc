@@ -1,5 +1,3 @@
-"use server";
-
 import { getLatency } from "@/services/neon/db";
 
 export default async function Home() {
