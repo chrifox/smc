@@ -63,13 +63,15 @@ const ViewCharacter = ({}: PageProps) => {
     })();
   }, []);
 
-  return character ? (
-    <div>
-      <h1 className="mb-4">Character Sheet - {character.name}</h1>
+  return (
+    character && (
+      <div>
+        <h1 className="mb-4">Character Sheet - {character.name}</h1>
 
-      <CharacterSheet character={character} />
-    </div>
-  ) : null;
+        <CharacterSheet character={character} />
+      </div>
+    )
+  );
 };
 
 export default ViewCharacter;

@@ -1,5 +1,6 @@
 import { classList, raceList } from "@/services/graphql/queries";
 import CharacterCreator from "../../components/custom/CharacterCreator/CharacterCreator";
+import { AbilityBonus, GQLClass, GQLRace } from "@/services/graphql/types";
 
 const HomePage = async () => {
   const races = await fetch("https://www.dnd5eapi.co/graphql", {
@@ -27,6 +28,18 @@ const HomePage = async () => {
     display_name: r.name,
     speed: r.speed,
     size: r.size,
+    ability_bonuses: r.ability_bonuses,
+    languages: r.languages.reduce(
+      (acc, l, index) =>
+        `${acc}${index === r.languages.length - 1 ? l.name : `${l.name},`}`,
+      ""
+    ),
+    subraces: r.subraces.map((sr) => ({
+      name: sr.index,
+      display_name: sr.name,
+      ability_bonuses: sr.ability_bonuses,
+      race: sr.race.index,
+    })),
   }));
 
   const sanitisedClasses = classes.map((c: GQLClass) => ({
@@ -48,11 +61,7 @@ const HomePage = async () => {
       <div>
         <h1>D&D 5E</h1>
 
-        <CharacterCreator
-          races={sanitisedRaces}
-          classes={sanitisedClasses}
-          subraces={[]}
-        />
+        <CharacterCreator races={sanitisedRaces} classes={sanitisedClasses} />
       </div>
     )
   );

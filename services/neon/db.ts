@@ -31,17 +31,6 @@ export async function getRaces() {
   return dbResponse;
 }
 
-export async function getSubrace(subrace: string) {
-  const [subraceDetails] =
-    await sql`SELECT * FROM "subraces" WHERE name = ${subrace}`;
-  return subraceDetails;
-}
-
-export async function getSubraces() {
-  const dbResponse = await sql`SELECT * FROM "subraces"`;
-  return dbResponse;
-}
-
 export async function getClass(classname: string) {
   const [classDetails] =
     await sql`SELECT * FROM "classes" WHERE name = ${classname}`;

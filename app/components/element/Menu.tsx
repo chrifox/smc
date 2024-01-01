@@ -25,7 +25,11 @@ const Menu = ({}: MenuProps) => {
       setLinks([
         {
           path: "/5e/create",
-          label: "Create",
+          label: "Create 5e",
+        },
+        {
+          path: "/user/player/character/create",
+          label: "Create Custom",
         },
         {
           path: "/user/player/character/list",

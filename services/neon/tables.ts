@@ -31,26 +31,23 @@ export async function createTables(sql: NeonQueryFunction<false, false>) {
     "id" serial PRIMARY KEY,
     "name" text NOT NULL UNIQUE,
     "display_name" text NOT NULL,
-    "size" text NOT NULL,
+    "description" text NOT NULL,
+    "hit_die" int NOT NULL,
+    "size" text NOT NULL DEFAULT 'MEDIUM',
     "speed" int NOT NULL DEFAULT 30,
-    "ability2" text NOT NULL,
-    "ability1" text,
-    "created_at" timestamp DEFAULT now()
-  )`;
-
-  await sql`CREATE TABLE IF NOT EXISTS "subraces" (
-    "id" serial PRIMARY KEY,
-    "name" text NOT NULL,
+    "languages" text NOT NULL,
     "created_at" timestamp DEFAULT now()
   )`;
 
   await sql`CREATE TABLE IF NOT EXISTS "classes" (
     "id" serial PRIMARY KEY,
+    "origin" text NOT NULL,
     "name" text NOT NULL UNIQUE,
     "display_name" text NOT NULL,
-    "hit_dice" int NOT NULL,
+    "description" text NOT NULL,
     "primary_stat" text NOT NULL,
     "saving_throws" text NOT NULL,
+    "proficiencies" text NOT NULL,
     "created_at" timestamp DEFAULT now()
   )`;
 

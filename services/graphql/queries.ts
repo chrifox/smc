@@ -9,6 +9,28 @@ export const raceList = gqlQuery(`
       name
       speed
       size
+      ability_bonuses {
+        ability_score {
+          name
+        }
+        bonus
+      }
+      languages {
+        name
+      }
+      subraces {
+        race {
+          index
+        }
+        ability_bonuses {
+          ability_score {
+            name
+          }
+          bonus
+        }
+        name
+        index
+      }
     }
   }
 `);

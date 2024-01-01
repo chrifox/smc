@@ -8,6 +8,7 @@ import {
 import InformationCell from "./InformationCell";
 import InformationCellRow from "./InformationCellRow";
 import BasicAttacks, { Attack } from "./BasicAttacks";
+import CharacterPortrait from "./CharacterPortrait";
 
 const abilities = ["STR", "DEX", "CON", "INT", "WIS", "CHA"];
 
@@ -72,10 +73,22 @@ const CharacterSheet = ({ character }: { character: Character & any }) => {
     initiative: dexMod,
   };
 
-  // console.log(characterDetails);
+  console.log(characterDetails);
 
   return (
     <div className="flex flex-col flex-start bg-gray-900">
+      <InformationCellRow>
+        <InformationCell>
+          <div>
+            Portrait:
+            <CharacterPortrait
+              skinColour={characterDetails.skin_colour}
+              eyeColour={characterDetails.eye_colour}
+              hairColour={characterDetails.hair_colour}
+            />
+          </div>
+        </InformationCell>
+      </InformationCellRow>
       <InformationCellRow>
         <InformationCell>
           <div>Race: {characterDetails.race}</div>
@@ -96,7 +109,13 @@ const CharacterSheet = ({ character }: { character: Character & any }) => {
           <div>HP: {characterDetails.hp}</div>
         </InformationCell>
         <InformationCell>
-          <div>Hit Dice: {`d${characterDetails.classDetails.hit_dice}`}</div>
+          <div>
+            Hit Dice:{" "}
+            {`d${
+              characterDetails.classDetails?.hit_die ||
+              characterDetails.raceDetails?.hit_die
+            }`}
+          </div>
         </InformationCell>
         <InformationCell>
           <div>AC: {characterDetails.ac}</div>
@@ -165,7 +184,7 @@ const CharacterSheet = ({ character }: { character: Character & any }) => {
       <InformationCellRow label="EQUIPMENT">
         {equipment.map((name) => (
           <InformationCell key={name} width={6}>
-            <div> {name} </div>
+            <div>{name}</div>
           </InformationCell>
         ))}
       </InformationCellRow>

@@ -2,14 +2,14 @@
 
 import { useContext } from "react";
 import Input from "../../element/Input";
-// import { randomColour } from "../utils/randomiser";
 import { InputOption } from "../../types";
 import Form from "../../element/Form";
 import { UserContext } from "../../../context/UserContext";
 import { useRouter } from "next/navigation";
 import { getReadableHeight, getReadableWeight } from "@/app/utils/character";
 import AbilityScores from "./AbilityScores";
-import { PlayableClass, Race, Subrace } from "@/services/neon/types";
+import { PlayableClass, Race } from "@/services/neon/types";
+import CharacterPortrait from "../CharacterSheet/CharacterPortrait";
 
 interface SubraceOption extends InputOption {
   race_id: number;
@@ -17,7 +17,6 @@ interface SubraceOption extends InputOption {
 
 type GenerateCharacterProps = {
   races: Race[];
-  subraces: Subrace[];
   classes: PlayableClass[];
 };
 
@@ -34,11 +33,7 @@ const defaultFormData = {
   age: 21,
 };
 
-const CharacterCreator = ({
-  races,
-  subraces,
-  classes,
-}: GenerateCharacterProps) => {
+const CharacterCreator = ({ races, classes }: GenerateCharacterProps) => {
   const { user } = useContext(UserContext);
   const router = useRouter();
 
@@ -50,15 +45,6 @@ const CharacterCreator = ({
     };
   });
 
-  const subraceOptions = subraces.map((r: Subrace) => {
-    return {
-      id: r.id,
-      value: r.name,
-      label: r.display_name,
-      race_id: r.race_id,
-    };
-  });
-
   const classOptions = classes.map((c: PlayableClass) => {
     return {
       id: c.id,
@@ -66,22 +52,6 @@ const CharacterCreator = ({
       label: c.display_name,
     };
   });
-
-  // function handleRandomise() {
-  // write the randomiser function
-  // TESTING
-  // setFormData((previousFormData) => ({
-  //   ...previousFormData,
-  //   hair_colour: randomColour(500000),
-  // }));
-  // }
-
-  function getSubraceOptions(race_id: number) {
-    return subraceOptions.filter((s: SubraceOption) => {
-      const { race_id: raceId, ...subRaceOption } = s;
-      return s.race_id === race_id ? subRaceOption : null;
-    });
-  }
 
   async function handleSubmit(formData: FormData & { [key: string]: any }) {
     const { str, dex, con, int, wis, cha, ...character } = formData;
@@ -120,14 +90,20 @@ const CharacterCreator = ({
           const selectedRace: Race | undefined = races.find(
             (r: Race) => r.name === formData.race
           );
+          const selectedSubrace = selectedRace?.subraces?.find(
+            (sr: any) => sr.name === formData.subrace
+          );
           const selectedClass: PlayableClass | undefined = classes.find(
             (c: PlayableClass) => c.name === formData.class
           );
 
           let filteredSubraceOptions: SubraceOption[] = [];
           if (formData.race) {
-            if (selectedRace?.id) {
-              filteredSubraceOptions = getSubraceOptions(selectedRace.id);
+            if (selectedRace?.subraces) {
+              filteredSubraceOptions = selectedRace.subraces.map((sr: any) => ({
+                value: sr.name,
+                label: sr.display_name,
+              }));
             }
           }
 
@@ -147,17 +123,39 @@ const CharacterCreator = ({
 
                 {selectedRace && (
                   <div className="flex flex-col">
+                    {selectedRace?.hit_die && (
+                      <div>Hit Dice: d{selectedRace.hit_die}</div>
+                    )}
+
                     <div>Size: {selectedRace.size}</div>
                     <div>Speed: {selectedRace.speed}</div>
-                    <div>
-                      Bonuses:
+                    {selectedRace?.resistances && (
+                      <div>Resistances: {selectedRace.resistances}</div>
+                    )}
+
+                    {selectedRace.description && (
+                      <div>Description: {selectedRace.description}</div>
+                    )}
+
+                    {selectedRace.ability_bonuses && (
                       <div>
-                        <div>+2 {selectedRace.ability2}</div>
-                        {selectedRace.ability1 && (
-                          <div>+1 {selectedRace.ability1}</div>
-                        )}
+                        Bonuses:
+                        <div>
+                          {selectedRace.ability_bonuses.map((bonus: any) => (
+                            <div
+                              key={bonus.ability_score.name}
+                            >{`+${bonus.bonus} ${bonus.ability_score.name}`}</div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
+
+                    {selectedRace.languages && (
+                      <div>
+                        Languages:
+                        <div>{selectedRace.languages}</div>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -174,6 +172,19 @@ const CharacterCreator = ({
                 )}
               </div>
 
+              {selectedRace && selectedSubrace && (
+                <div className="flex flex-col">
+                  Bonuses:
+                  <div>
+                    {selectedSubrace.ability_bonuses.map((bonus: any) => (
+                      <div
+                        key={bonus.ability_score.name}
+                      >{`+${bonus.bonus} ${bonus.ability_score.name}`}</div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="flex flex-col">
                 <Input
                   type="select"
@@ -188,12 +199,20 @@ const CharacterCreator = ({
 
                 {selectedClass && (
                   <div className="flex flex-col">
-                    <div>Hit Dice: d{selectedClass.hit_dice}</div>
-                    <div>Primary Stat: {selectedClass.primary_stat}</div>
-                    <div>
-                      Saving Throws:
-                      <div>{selectedClass.saving_throws}</div>
-                    </div>
+                    {selectedClass?.hit_die && (
+                      <div>Hit Dice: d{selectedClass.hit_die}</div>
+                    )}
+
+                    {/* <div>Primary Stat: {selectedClass.primary_stat}</div> */}
+                    <div>Saving Throws: {selectedClass.saving_throws}</div>
+
+                    {selectedClass.proficiencies && (
+                      <div>Proficiencies: {selectedClass.proficiencies}</div>
+                    )}
+
+                    {selectedClass.description && (
+                      <div>Description: {selectedClass.description}</div>
+                    )}
                   </div>
                 )}
               </div>
@@ -210,6 +229,7 @@ const CharacterCreator = ({
                 placeholder="Enter a name"
                 value={formData.name}
                 onChange={updateFormData}
+                maxLength={32}
                 required
               />
 
@@ -239,8 +259,8 @@ const CharacterCreator = ({
                 name="height"
                 value={formData.height}
                 onChange={updateFormData}
-                min={1}
-                max={144}
+                min={6}
+                max={120}
                 required
               />
 
@@ -251,11 +271,11 @@ const CharacterCreator = ({
                 value={formData.weight}
                 onChange={updateFormData}
                 min={10}
-                max={999}
+                max={300}
                 required
               />
 
-              <div className="flex flex-row">
+              <div className="flex flex-row justify-between mb-2">
                 <Input
                   type="color"
                   label="Hair Colour"
@@ -278,6 +298,14 @@ const CharacterCreator = ({
                   name="skin_colour"
                   value={formData.skin_colour}
                   onChange={updateFormData}
+                />
+              </div>
+
+              <div className="p-4 flex flex-col w-full items-center border border-gray-700 rounded-md">
+                <CharacterPortrait
+                  skinColour={formData.skin_colour}
+                  hairColour={formData.hair_colour}
+                  eyeColour={formData.eye_colour}
                 />
               </div>
             </>

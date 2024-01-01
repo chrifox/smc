@@ -29,7 +29,6 @@ const CharacterList = ({
         rows={characterTableData}
         rowAction={handleViewCharacter}
         columns={[
-          { key: "id", label: "ID" },
           { key: "name", label: "Name" },
           { key: "race", label: "Race" },
           { key: "class", label: "Class" },

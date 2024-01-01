@@ -4,29 +4,30 @@ export type Race = {
   id: number;
   name: string;
   display_name: string;
+  description: string;
   size: string;
   speed: number;
-  ability1: string;
-  ability2: string;
+  languages: string;
   created_at?: string;
-};
+  hit_die?: number; // custom only
+  resistances?: string; // custom only
 
-export type Subrace = {
-  id: number;
-  name: string;
-  display_name: string;
-  race_id: number;
-  created_at?: string;
+  subraces?: any; // 5e only
+  ability_bonuses?: any; // 5e only
 };
 
 export type PlayableClass = {
   id: number;
   name: string;
   display_name: string;
-  hit_dice: 6 | 8 | 10 | 12;
+  description: string;
   primary_stat: string;
   saving_throws: string;
   created_at?: string;
+
+  proficiencies?: string; // custom only
+
+  hit_die?: number; // 5e only
 };
 
 export type User = {

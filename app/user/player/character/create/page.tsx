@@ -1,15 +1,13 @@
 import CharacterCreator from "../../../../components/custom/CharacterCreator/CharacterCreator";
-import { getClasses, getRaces, getSubraces } from "@/services/neon/db";
-import { PlayableClass, Race, Subrace } from "@/services/neon/types";
+import { getClasses, getRaces } from "@/services/neon/db";
+import { PlayableClass, Race } from "@/services/neon/types";
 
 const CreateCharacter = async () => {
   const dbRaces = (await getRaces()) as Race[];
-  const dbSubraces = (await getSubraces()) as Subrace[];
   const dbClasses = (await getClasses()) as PlayableClass[];
 
   const props = {
     races: dbRaces,
-    subraces: dbSubraces,
     classes: dbClasses,
   };
 
