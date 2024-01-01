@@ -1,5 +1,5 @@
 import { DeleteRounded } from "@mui/icons-material";
-import { getClassColour } from "@/app/utils/character";
+import { get5eClassColour, getCustomClassColour } from "@/app/utils/character";
 import Button from "./Button";
 
 type TableColumn = {
@@ -41,7 +41,7 @@ const Table = ({
         {rows.map((row: any) => (
           <tr
             key={row.id}
-            className={`bg-[${getClassColour(row.class)}] ${
+            className={`bg-[${row.type === '5e' ? get5eClassColour(row.class) : getCustomClassColour(row.class)}] ${
               rowAction ? "cursor-pointer" : ""
             }`}
             onClick={rowAction ? () => rowAction(row.id) : undefined}

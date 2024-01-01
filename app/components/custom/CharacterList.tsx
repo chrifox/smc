@@ -19,6 +19,7 @@ const CharacterList = ({
     name: character.name,
     race: character.race,
     class: character.class,
+    type: character.type,
   }));
 
   return (
@@ -29,9 +30,11 @@ const CharacterList = ({
         rows={characterTableData}
         rowAction={handleViewCharacter}
         columns={[
+          { key: "id", label: "ID" },
           { key: "name", label: "Name" },
           { key: "race", label: "Race" },
           { key: "class", label: "Class" },
+          { key: "type", label: "Type" },
         ]}
       />
     </div>

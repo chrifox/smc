@@ -11,6 +11,7 @@ export async function createTables(sql: NeonQueryFunction<false, false>) {
 
   await sql`CREATE TABLE IF NOT EXISTS "characters" (
     "id" serial PRIMARY KEY,
+    "type": text NOT NULL,
     "user_id" int NOT NULL,
     "name" text NOT NULL,
     "gender" text,

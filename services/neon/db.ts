@@ -110,6 +110,7 @@ export async function createCharacter(character: Character, userId: number) {
     eye_colour,
     skin_colour,
     age,
+    type,
     scores: { str, dex, con, int, wis, cha },
   } = character;
 
@@ -118,8 +119,8 @@ export async function createCharacter(character: Character, userId: number) {
   // can't get this working so just hardcoding every column ... -_-
   // const createdCharacter = await sql`INSERT INTO characters (${keys},user_id) VALUES ('${values}',${userId})`;
   const createdCharacter =
-    await sql`INSERT INTO characters (user_id,name,gender,race,class,height,weight,hair_colour,eye_colour,skin_colour,age,scores)
-  VALUES (${userId},${name},${gender},${race},${playableClass},${height},${weight},${hair_colour},${eye_colour},${skin_colour},${age},${scoresString})`;
+    await sql`INSERT INTO characters (user_id,name,gender,race,class,height,weight,hair_colour,eye_colour,skin_colour,age,type,scores)
+  VALUES (${userId},${name},${gender},${race},${playableClass},${height},${weight},${hair_colour},${eye_colour},${skin_colour},${age},${type},${scoresString})`;
 
   return { message: "CREATED CHARACTER" };
 }

@@ -1,5 +1,5 @@
-export function getClassColour(classKey: string) {
-  switch (classKey) {
+export function get5eClassColour(className: string) {
+  switch (className) {
     case "fighter":
       return "#C69B6D";
     case "rogue":
@@ -24,6 +24,29 @@ export function getClassColour(classKey: string) {
       return "#A330C9";
     case "warlock":
       return "#8788EE";
+    default:
+      return "transparent";
+  }
+}
+
+export function getCustomClassColour(className: string) {
+  switch (className) {
+    case "enhancer":
+      return "#cc4125";
+    case "warrior":
+      return "#e06666";
+    case "rogue":
+      return "#76a5af";
+    case "hunter":
+      return "#93c47d";
+    case "mage":
+      return "#c27ba0";
+    case "warlock":
+      return "#8e7cc3";
+    case "priest":
+      return "#f6b26b";
+    case "knight":
+      return "#ffd966";
     default:
       return "transparent";
   }

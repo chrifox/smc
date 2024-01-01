@@ -1,27 +1,10 @@
-import { classList, raceList } from "@/services/graphql/queries";
+import { getClasses, getRaces } from "@/services/graphql/requests";
 import CharacterCreator from "../../components/custom/CharacterCreator/CharacterCreator";
-import { AbilityBonus, GQLClass, GQLRace } from "@/services/graphql/types";
+import { GQLClass, GQLRace } from "@/services/graphql/types";
 
 const HomePage = async () => {
-  const races = await fetch("https://www.dnd5eapi.co/graphql", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: raceList,
-  })
-    .then((res) => res.json())
-    .then((json) => json.data.races);
-
-  const classes = await fetch("https://www.dnd5eapi.co/graphql", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: classList,
-  })
-    .then((res) => res.json())
-    .then((json) => json.data.classes);
+  const races = await getRaces();
+  const classes = await getClasses();
 
   const sanitisedRaces = races.map((r: GQLRace) => ({
     name: r.index,

@@ -5,7 +5,7 @@ import Input from "../../element/Input";
 import { InputOption } from "../../types";
 import Form from "../../element/Form";
 import { UserContext } from "../../../context/UserContext";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { getReadableHeight, getReadableWeight } from "@/app/utils/character";
 import AbilityScores from "./AbilityScores";
 import { PlayableClass, Race } from "@/services/neon/types";
@@ -36,6 +36,7 @@ const defaultFormData = {
 const CharacterCreator = ({ races, classes }: GenerateCharacterProps) => {
   const { user } = useContext(UserContext);
   const router = useRouter();
+  const pathname = usePathname();
 
   const raceOptions = races.map((r: Race) => {
     return {
@@ -64,6 +65,8 @@ const CharacterCreator = ({ races, classes }: GenerateCharacterProps) => {
       wis,
       cha,
     };
+
+    character.type = pathname.includes("5e") ? "5e" : "custom";
 
     await fetch("/api/character", {
       method: "POST",

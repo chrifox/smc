@@ -48,6 +48,7 @@ export type AbilityScores = {
 
 export type Character = {
   id: number;
+  type: string;
   user_id: number;
   name: string;
   gender?: string;
