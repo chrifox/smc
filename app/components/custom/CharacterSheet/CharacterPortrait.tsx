@@ -6,7 +6,7 @@ type CharacterPortraitProps = {
 
 const Eye = ({ colour, pos }: { colour: string; pos: string }) => (
   <div
-    className={`flex justify-center items-center bg-white h-10 w-10 rounded-full absolute ${pos}`}
+    className={`flex justify-center items-center bg-white h-10 w-10 rounded-full absolute ${pos} shadow shadow-gray-700`}
   >
     <div
       className="flex justify-center items-center h-8 w-8 bg-black rounded-full"
@@ -31,13 +31,13 @@ const CharacterPortrait = ({
         style={{ backgroundColor: skinColour }}
       >
         <div
-          className={`h-20 w-40 rounded-t-full absolute -top-2`}
+          className={`h-20 w-40 rounded-t-full absolute -top-2 `}
           style={{ backgroundColor: hairColour }}
         ></div>
         <Eye colour={eyeColour} pos="left-4" />
         <Eye colour={eyeColour} pos="right-4" />
 
-        <div className="w-12 h-2 bg-black rounded-full absolute bottom-8"></div>
+        <div className="w-12 h-1 bg-black rounded-full absolute bottom-8"></div>
       </div>
     </div>
   </div>

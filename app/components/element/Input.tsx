@@ -3,24 +3,45 @@ import { InputHTMLAttributes } from "react";
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   onChange: (event: React.ChangeEvent<any>) => void;
+  inputGroupClasses?: string;
 }
 
 interface SelectProps extends InputHTMLAttributes<HTMLSelectElement> {
   options?: { label: string; value: string }[];
 }
 
+const defaultInputGroupClasses = "input-group mb-2";
 const defaultInputClasses = "text-black outline-none rounded w-full p-1";
 
-const Input = ({ label, options = [], ...props }: InputProps & SelectProps) => {
+const InputGroup = ({
+  label,
+  classes,
+  children,
+}: {
+  label: string;
+  classes: string;
+  children: JSX.Element | JSX.Element[];
+}) => (
+  <div className={classes}>
+    <div className="mx-2">
+      <label>{label}</label>
+      {children}
+    </div>
+  </div>
+);
+
+const Input = ({
+  label,
+  options = [],
+  inputGroupClasses = "w-full",
+  ...props
+}: InputProps & SelectProps) => {
+  const groupClasses = `${defaultInputGroupClasses} ${inputGroupClasses}`;
   switch (props.type) {
     case "select":
       return options.length > 0 ? (
-        <div className="input-group mb-2">
-          <label>{label}</label>
-          <select
-            className={defaultInputClasses}
-            {...props}
-          >
+        <InputGroup label={label} classes={groupClasses}>
+          <select className={defaultInputClasses} {...props}>
             <option value="">{props.placeholder}</option>
             {options.map((option) => (
               <option key={option.value} value={option.value}>
@@ -28,35 +49,32 @@ const Input = ({ label, options = [], ...props }: InputProps & SelectProps) => {
               </option>
             ))}
           </select>
-        </div>
+        </InputGroup>
       ) : null;
     case "range":
       return (
-        <div className="input-group mb-2">
-          <label>{label}</label>
+        <InputGroup label={label} classes={groupClasses}>
           <input
             className={defaultInputClasses}
             onMouseUp={props.onChange}
             {...props}
           />
-        </div>
+        </InputGroup>
       );
     case "color":
       return (
-        <div className="input-group mb-2">
-          <label>{label}</label>
+        <InputGroup label={label} classes={groupClasses}>
           <input
             className={defaultInputClasses.replaceAll("p-1", "")}
             {...props}
           />
-        </div>
+        </InputGroup>
       );
     default:
       return (
-        <div className="input-group mb-2">
-          <label>{label}</label>
+        <InputGroup label={label} classes={groupClasses}>
           <input className={defaultInputClasses} {...props} />
-        </div>
+        </InputGroup>
       );
   }
 };

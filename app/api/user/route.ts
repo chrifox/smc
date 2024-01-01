@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
   if (email) {
     const data = await getUser(email);
 
-    return NextResponse.json({ message: "GET USER", user: data });
+    return NextResponse.json({ message: "GET USER", data });
   }
 
   return NextResponse.json({ message: "USER NOT FOUND" });

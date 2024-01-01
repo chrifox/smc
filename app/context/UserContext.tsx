@@ -38,12 +38,17 @@ const UserContextProvider = ({
     defaultUser,
   };
 
-  // setUser from cookie
   useEffect(() => {
-    (async () => {
+    (async function () {
       await fetch("/api/user")
         .then((res) => res.json())
-        .then(({ user }) => setUser(user))
+        .then((json) => {
+          if (json.data) {
+            setUser(json.data);
+          } else {
+            console.error(json.message);
+          }
+        })
         .then(() => {
           if (user) {
             setLoading(false);

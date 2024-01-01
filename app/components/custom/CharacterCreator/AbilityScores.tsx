@@ -55,6 +55,7 @@ const AbilityScores = ({ formData, updateFormData }: any) => {
             label={score.label}
             name={score.name}
             value={formData[score.name]}
+            inputGroupClasses="w-1/2 sm:w-1/3"
             onChange={updateFormData}
             required
           />

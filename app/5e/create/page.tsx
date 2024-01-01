@@ -1,5 +1,5 @@
-import { getClasses, getRaces } from "@/services/graphql/requests";
 import CharacterCreator from "../../components/custom/CharacterCreator/CharacterCreator";
+import { getClasses, getRaces } from "@/services/graphql/requests";
 import { GQLClass, GQLRace } from "@/services/graphql/types";
 
 const HomePage = async () => {
@@ -42,7 +42,7 @@ const HomePage = async () => {
     races &&
     classes && (
       <div>
-        <h1>D&D 5E</h1>
+        <h1 className="mb-4">5E Character Builder</h1>
 
         <CharacterCreator races={sanitisedRaces} classes={sanitisedClasses} />
       </div>

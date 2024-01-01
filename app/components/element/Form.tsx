@@ -41,12 +41,8 @@ const Form = ({
     }
   }
 
-  // useEffect(() => {
-  // console.log("STATE: ", formData);
-  // }, [formData]);
-
   return (
-    <form className="min-w-[25vw]" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       {children({ formData, updateFormData })}
 
       <div
