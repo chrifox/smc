@@ -21,10 +21,13 @@ export async function GET(request: NextRequest) {
     const data = await getCharacter(parseInt(characterId));
 
     const scores = data.scores.split(",");
-    data.scores = scores.reduce((dataScores: { [key: string]: number }, score: string) => {
-      const [key, value] = score.split(":");
-      return { ...dataScores, [key.toLowerCase()]: value };
-    }, {});
+    data.scores = scores.reduce(
+      (dataScores: { [key: string]: number }, score: string) => {
+        const [key, value] = score.split(":");
+        return { ...dataScores, [key.toLowerCase()]: value };
+      },
+      {}
+    );
 
     return NextResponse.json({ message: "CHARACTER", data });
   }

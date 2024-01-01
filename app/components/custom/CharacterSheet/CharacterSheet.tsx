@@ -73,7 +73,7 @@ const CharacterSheet = ({ character }: { character: Character & any }) => {
     initiative: dexMod,
   };
 
-  console.log(characterDetails);
+  // console.log(characterDetails);
 
   return (
     <div className="flex flex-col flex-start bg-gray-900">

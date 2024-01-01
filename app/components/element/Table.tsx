@@ -1,5 +1,4 @@
 import { DeleteRounded } from "@mui/icons-material";
-import { get5eClassColour, getCustomClassColour } from "@/app/utils/character";
 import Button from "./Button";
 
 type TableColumn = {
@@ -16,6 +15,8 @@ type TableProps = {
   handleDelete?: any;
   rows: TableRow[];
   rowAction?: any;
+  getRowClasses?: (row: TableRow) => string;
+  getCellClasses?: (row: TableRow, key: string) => string;
   columns: TableColumn[];
 };
 
@@ -23,6 +24,8 @@ const Table = ({
   rows,
   columns,
   rowAction,
+  getRowClasses,
+  getCellClasses,
   allowDelete,
   handleDelete,
 }: TableProps) => {
@@ -41,20 +44,31 @@ const Table = ({
         {rows.map((row: any) => (
           <tr
             key={row.id}
-            className={`bg-[${row.type === '5e' ? get5eClassColour(row.class) : getCustomClassColour(row.class)}] ${
-              rowAction ? "cursor-pointer" : ""
+            className={`${rowAction ? "cursor-pointer" : ""} ${
+              getRowClasses ? getRowClasses(row) : ""
             }`}
             onClick={rowAction ? () => rowAction(row.id) : undefined}
           >
             {Object.entries(row).map(([key, value]: [string, any]) => (
-              <td key={`${row.id}--${key}`} className="px-2 py-1">
+              <td
+                key={`${row.id}--${key}`}
+                className={`px-2 py-1 ${
+                  getCellClasses ? getCellClasses(row, key) : ""
+                }`}
+              >
                 {value}
               </td>
             ))}
 
             {allowDelete && (
               <td className="text-right">
-                <Button visuallyLink onClick={() => handleDelete(row.id)}>
+                <Button
+                  visuallyLink
+                  onClick={(ev) => {
+                    ev.stopPropagation();
+                    handleDelete(row.id);
+                  }}
+                >
                   <DeleteRounded />
                 </Button>
               </td>

@@ -16,13 +16,17 @@ const Characters = () => {
   }
 
   async function handleDeleteCharacter(characterId: number) {
-    confirm("There is no way to recover a deleted character, are you sure?");
+    const confirmation = confirm(
+      "There is no way to recover a deleted character, are you sure?"
+    );
 
-    await fetch(`/api/character?cid=${characterId}`, {
-      method: "DELETE",
-    });
+    if (confirmation) {
+      await fetch(`/api/character?cid=${characterId}`, {
+        method: "DELETE",
+      });
 
-    await getUserCharacters();
+      await getUserCharacters();
+    }
   }
 
   async function getUserCharacters() {
@@ -37,7 +41,7 @@ const Characters = () => {
         await getUserCharacters();
       })();
     }
-  }, [user]);
+  }, [user.id]);
 
   return (
     <div>
