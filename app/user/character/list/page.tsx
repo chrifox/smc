@@ -5,6 +5,7 @@ import { UserContext } from "@/app/context/UserContext";
 import { Character } from "@/services/neon/types";
 import CharacterList from "@/app/components/custom/CharacterList";
 import { useRouter } from "next/navigation";
+import { CHARACTER } from "@/app/constants/routes";
 
 const Characters = () => {
   const { user } = useContext(UserContext);
@@ -12,7 +13,7 @@ const Characters = () => {
   const router = useRouter();
 
   function handleViewCharacter(characterId: number) {
-    router.push(`/user/player/character/view?cid=${characterId}`);
+    router.push(`${CHARACTER}/${characterId}`);
   }
 
   async function handleDeleteCharacter(characterId: number) {
@@ -45,7 +46,7 @@ const Characters = () => {
 
   return (
     <div>
-      <h1 className="mb-4">Character List</h1>
+      <h1>Character List</h1>
 
       <CharacterList
         characters={characters}

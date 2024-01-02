@@ -33,13 +33,6 @@ const skills = [
   { name: "Persuasion", stat: "CHA" },
 ];
 
-const equipment = [
-  "adventurer's pack",
-  "dagger",
-  "holy symbol",
-  "walking stick",
-]; // todo make this editable
-
 const dummyAttacks: Attack[] = [
   {
     type: "physical",
@@ -69,11 +62,8 @@ const CharacterSheet = ({ character }: { character: Character & any }) => {
     ...characterDetails,
     pb: getProficienyBonus(character.level),
     ac: 10 + dexMod, // TODO: account for gear modifiers
-    hp: 50,
     initiative: dexMod,
   };
-
-  // console.log(characterDetails);
 
   return (
     <div className="flex flex-col flex-start bg-gray-900">
@@ -161,7 +151,7 @@ const CharacterSheet = ({ character }: { character: Character & any }) => {
 
       <InformationCellRow label="SKILLS">
         {skills.map(({ name, stat }) => (
-          <InformationCell key={name} width={6}>
+          <InformationCell key={name}>
             <div>
               {name}: <span className="text-gray-500">{`(${stat})`} +/-</span>
             </div>
@@ -169,43 +159,35 @@ const CharacterSheet = ({ character }: { character: Character & any }) => {
         ))}
       </InformationCellRow>
 
-      <InformationCellRow label="FEATS">
-        <InformationCell>
-          <div>AWESOME AT EVERYTHING</div>
-        </InformationCell>
-      </InformationCellRow>
+      {characterDetails.feats.length > 0 && (
+        <InformationCellRow label="FEATS">
+          {characterDetails.feats.split(",").map((name: string) => (
+            <InformationCell key={name}>
+              <div>{name}</div>
+            </InformationCell>
+          ))}
+        </InformationCellRow>
+      )}
 
       <InformationCellRow label="LANGUAGES">
-        <InformationCell>
-          <div>Common</div>
-        </InformationCell>
-      </InformationCellRow>
-
-      <InformationCellRow label="EQUIPMENT">
-        {equipment.map((name) => (
-          <InformationCell key={name} width={6}>
+        {characterDetails.languages.split(",").map((name: string) => (
+          <InformationCell key={name}>
             <div>{name}</div>
           </InformationCell>
         ))}
       </InformationCellRow>
+
+      {characterDetails.equipment.length > 0 && (
+        <InformationCellRow label="EQUIPMENT">
+          {characterDetails.equipment.split(",").map((name: string) => (
+            <InformationCell key={name}>
+              <div>{name}</div>
+            </InformationCell>
+          ))}
+        </InformationCellRow>
+      )}
     </div>
   );
-
-  // PRIMARY INFO
-  // stats
-  // ac
-  // hp
-  // attack/spell info
-
-  // SECONDARY INFO
-  // proficiency bonus
-  // initiative
-  // speed
-
-  // TERTIARY INFO
-  // features/traits
-  // equipment
-  // aesthetics
 };
 
 export default CharacterSheet;

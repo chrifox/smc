@@ -28,7 +28,7 @@ const HomePage = async () => {
   const sanitisedClasses = classes.map((c: GQLClass) => ({
     name: c.index,
     display_name: c.name,
-    hit_dice: c.hit_die,
+    hit_die: c.hit_die,
     saving_throws: c.saving_throws.reduce(
       (saves: string, s: any, index: number) =>
         `${saves}${
@@ -42,7 +42,7 @@ const HomePage = async () => {
     races &&
     classes && (
       <div>
-        <h1 className="mb-4">5E Character Builder</h1>
+        <h1>5E Character Builder</h1>
 
         <CharacterCreator races={sanitisedRaces} classes={sanitisedClasses} />
       </div>

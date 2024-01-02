@@ -10,9 +10,9 @@ const CreateCharacterPage = () => {
         What kind of character would you like to create?
       </div>
 
-      <div className="flex flex-col items-center">
-        <a className="bg-orange-500 p-2 rounded-md mb-2" href={CREATE_CHARACTER_5E}>5E</a>
-        <a className="bg-blue-500 p-2 rounded-md" href={CREATE_CHARACTER_CUSTOM}>Custom</a>
+      <div className="flex flex-row justify-center items-center">
+        <a className="mr-2 bg-orange-500 p-2 rounded-md" href={CREATE_CHARACTER_5E}>D&D 5E</a>
+        <a className="ml-2 bg-blue-500 p-2 rounded-md" href={CREATE_CHARACTER_CUSTOM}>Custom</a>
       </div>
     </div>
   );

@@ -25,6 +25,23 @@ export async function createTables(sql: NeonQueryFunction<false, false>) {
     "age" int NOT NULL,
     "height" int NOT NULL,
     "weight" int NOT NULL,
+    "scores" text NOT NULL,
+    "hp" int NOT NULL,
+    "languages" text NOT NULL DEFAULT 'common',
+    "equipped" text NOT NULL DEFAULT '',
+    "equipment" TEXT NOT NULL DEFAULT '',
+    "feats" text NOT NULL DEFAULT '',
+    "skills" text NOT NULL DEFAULT '',
+    "death_save_fails" int NOT NULL DEFAULT 0,
+    "death_save_successes" int NOT NULL DEFAULT 0,
+    "created_at" timestamp DEFAULT now()
+  )`;
+
+  await sql`CREATE TABLE IF NOT EXISTS "campaigns" (
+    "id" serial PRIMARY KEY,
+    "name" text NOT NULL UNIQUE,
+    "description" text NOT NULL,
+    "characters" text NOT NULL DEFAULT '',
     "created_at" timestamp DEFAULT now()
   )`;
 

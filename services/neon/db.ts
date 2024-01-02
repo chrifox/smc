@@ -112,6 +112,7 @@ export async function createCharacter(character: Character, userId: number) {
     age,
     type,
     scores: { str, dex, con, int, wis, cha },
+    hp,
   } = character;
 
   const scoresString = `STR:${str},DEX:${dex},CON:${con},INT:${int},WIS:${wis},CHA:${cha}`;
@@ -119,8 +120,8 @@ export async function createCharacter(character: Character, userId: number) {
   // can't get this working so just hardcoding every column ... -_-
   // const createdCharacter = await sql`INSERT INTO characters (${keys},user_id) VALUES ('${values}',${userId})`;
   const createdCharacter =
-    await sql`INSERT INTO characters (user_id,name,gender,race,class,height,weight,hair_colour,eye_colour,skin_colour,age,type,scores)
-  VALUES (${userId},${name},${gender},${race},${playableClass},${height},${weight},${hair_colour},${eye_colour},${skin_colour},${age},${type},${scoresString})`;
+    await sql`INSERT INTO characters (user_id,name,gender,race,class,height,weight,hair_colour,eye_colour,skin_colour,age,type,scores,hp)
+  VALUES (${userId},${name},${gender},${race},${playableClass},${height},${weight},${hair_colour},${eye_colour},${skin_colour},${age},${type},${scoresString},${hp})`;
 
   return { message: "CREATED CHARACTER" };
 }
@@ -130,4 +131,16 @@ export async function deleteCharacter(characterId: number) {
     await sql`DELETE FROM characters WHERE id = ${characterId}`;
 
   return { message: "DELETED CHARACTER" };
+}
+
+export async function getCampaigns() {
+  const campaigns = await sql`SELECT * FROM campaigns`;
+
+  return { message: "ALL CAMPAIGNS", campaigns };
+}
+
+export async function getCampaign(cid: number) {
+  const campaign = await sql`SELECT * FROM campaigns WHERE id = ${cid}`;
+
+  return { message: "CAMPAIGN", campaign };
 }

@@ -64,4 +64,21 @@ export type Character = {
   weight: number;
   scores: AbilityScores;
   created_at?: string;
+
+  hp: number;
+  languages: string;
+  equipped: string;
+  equipment: string;
+  feats: string;
+  skills: string;
+  death_save_fails: number;
+  death_save_successes: number;
+};
+
+export type Campaign = {
+  id: number;
+  name: string;
+  description: string;
+  characters: string;
+  created_at?: string;
 };

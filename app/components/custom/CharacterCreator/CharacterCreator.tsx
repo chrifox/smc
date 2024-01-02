@@ -10,6 +10,8 @@ import { getReadableHeight, getReadableWeight } from "@/app/utils/character";
 import AbilityScores from "./AbilityScores";
 import { PlayableClass, Race } from "@/services/neon/types";
 import CharacterPortrait from "../CharacterSheet/CharacterPortrait";
+import { CHARACTER_LIST } from "@/app/constants/routes";
+import { getAbilityModifier } from "../CharacterSheet/utils";
 
 interface SubraceOption extends InputOption {
   race_id: number;
@@ -31,6 +33,13 @@ const defaultFormData = {
   eye_colour: "#4499AA",
   skin_colour: "#EE9955",
   age: 21,
+  str: 10,
+  dex: 10,
+  con: 10,
+  int: 10,
+  wis: 10,
+  cha: 10,
+  hp: 0,
 };
 
 const CharacterCreator = ({ races, classes }: GenerateCharacterProps) => {
@@ -58,15 +67,25 @@ const CharacterCreator = ({ races, classes }: GenerateCharacterProps) => {
     const { str, dex, con, int, wis, cha, ...character } = formData;
 
     character.scores = {
-      str,
-      dex,
-      con,
-      int,
-      wis,
-      cha,
+      str: parseInt(str),
+      dex: parseInt(dex),
+      con: parseInt(con),
+      int: parseInt(int),
+      wis: parseInt(wis),
+      cha: parseInt(cha),
     };
 
     character.type = pathname.includes("5e") ? "5e" : "custom";
+    const race = races.find(({ name }) => name === formData.race);
+    const classDetails = classes.find(({ name }) => name === formData.class);
+
+    const conMod = getAbilityModifier(character.scores.con);
+
+    if (character.type === "5e") {
+      character.hp = classDetails?.hit_die! + conMod;
+    } else {
+      character.hp = race?.hit_die! + conMod;
+    }
 
     await fetch("/api/character", {
       method: "POST",
@@ -76,7 +95,7 @@ const CharacterCreator = ({ races, classes }: GenerateCharacterProps) => {
       },
     })
       .then(() => {
-        router.push("/user/player/character/list");
+        router.push(CHARACTER_LIST);
       })
       .catch(console.error);
   }

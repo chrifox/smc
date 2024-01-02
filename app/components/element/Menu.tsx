@@ -5,6 +5,7 @@ import { HomeRounded, MenuRounded, PersonRounded } from "@mui/icons-material";
 import { UserContext } from "../../context/UserContext";
 import {
   ACCOUNT,
+  CAMPAIGN_LIST,
   CHARACTER_LIST,
   CREATE_CHARACTER,
   HOME,
@@ -36,6 +37,10 @@ const Menu = ({}: MenuProps) => {
         {
           path: CHARACTER_LIST,
           label: "Characters",
+        },
+        {
+          path: CAMPAIGN_LIST,
+          label: "Campaigns",
         },
       ]);
     }

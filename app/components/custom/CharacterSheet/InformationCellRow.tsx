@@ -4,8 +4,8 @@ type InformationCellRowProps = {
 };
 
 const InformationCellRow = ({ label, children }: InformationCellRowProps) => (
-  <div>
-    {label && <p className="text-center text-xs">{label}</p>}
+  <div className="mb-2">
+    {label && <p className="text-center text-xs mb-1">{label}</p>}
     <div className="flex flew-row flex-wrap">{children}</div>
   </div>
 );

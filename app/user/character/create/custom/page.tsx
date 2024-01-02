@@ -13,7 +13,7 @@ const CreateCharacter = async () => {
 
   return (
     <div>
-      <h1 className="mb-4">Custom Character Builder</h1>
+      <h1>Custom Character Builder</h1>
 
       <CharacterCreator {...props} />
     </div>

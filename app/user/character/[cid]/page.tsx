@@ -7,7 +7,7 @@ import CharacterSheet from "@/app/components/custom/CharacterSheet/CharacterShee
 import { constructCharacterDetails } from "./utils";
 
 const ViewCharacter = ({ params }: PageProps) => {
-  const cid = params.slug;
+  const cid = params.cid;
   const [character, setCharacter] = useState<Character>();
 
   useEffect(() => {
