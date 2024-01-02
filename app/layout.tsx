@@ -20,16 +20,16 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} min-h-screen overflow-x-hidden w-full sm:w-[360px]`}
-      >
+      <body className={`${inter.className} min-h-screen overflow-x-hidden`}>
         <UserContextProvider>
           <>
             <header>
               <Menu />
             </header>
-            <main className="pt-4 px-8 pb-8">
-              <div className="flex flex-col items-center">{children}</div>
+            <main className="flex flex-col items-center pt-4 px-8 pb-8">
+              <div className="w-full sm:w-[640px]">
+                {children}
+              </div>
             </main>
           </>
         </UserContextProvider>
