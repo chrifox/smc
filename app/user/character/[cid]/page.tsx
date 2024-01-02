@@ -4,12 +4,10 @@ import { useEffect, useState } from "react";
 import { PageProps } from "@/app/types";
 import { Character } from "@/services/neon/types";
 import CharacterSheet from "@/app/components/custom/CharacterSheet/CharacterSheet";
-import { useSearchParams } from "next/navigation";
 import { constructCharacterDetails } from "./utils";
 
-const ViewCharacter = ({}: PageProps) => {
-  const searchParams = useSearchParams();
-  const cid = searchParams.get("cid");
+const ViewCharacter = ({ params }: PageProps) => {
+  const cid = params.slug;
   const [character, setCharacter] = useState<Character>();
 
   useEffect(() => {

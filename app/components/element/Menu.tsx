@@ -3,6 +3,12 @@
 import { useContext, useEffect, useState } from "react";
 import { HomeRounded, MenuRounded, PersonRounded } from "@mui/icons-material";
 import { UserContext } from "../../context/UserContext";
+import {
+  ACCOUNT,
+  CHARACTER_LIST,
+  CREATE_CHARACTER,
+  HOME,
+} from "@/app/constants/routes";
 
 type Link = {
   path: string;
@@ -24,15 +30,11 @@ const Menu = ({}: MenuProps) => {
     if (user) {
       setLinks([
         {
-          path: "/5e/create",
-          label: "Create 5e",
+          path: CREATE_CHARACTER,
+          label: "Create Character",
         },
         {
-          path: "/user/player/character/create",
-          label: "Create Custom",
-        },
-        {
-          path: "/user/player/character/list",
+          path: CHARACTER_LIST,
           label: "Characters",
         },
       ]);
@@ -43,7 +45,7 @@ const Menu = ({}: MenuProps) => {
     <div className="px-4 w-full bg-gray-900">
       <ul className="list-none flex flex-row justify-start items-center">
         <li>
-          <a className="flex p-2" href="/">
+          <a className="flex p-2" href={HOME}>
             <HomeRounded />
           </a>
         </li>
@@ -76,7 +78,7 @@ const Menu = ({}: MenuProps) => {
         <div className="absolute left-0 w-full bg-gray-900">
           <ul className="list-none flex flex-col">
             <li>
-              <a className="flex p-4" href="/user/account">
+              <a className="flex p-4" href={ACCOUNT}>
                 Account
               </a>
             </li>

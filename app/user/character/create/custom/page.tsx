@@ -1,4 +1,4 @@
-import CharacterCreator from "../../../../components/custom/CharacterCreator/CharacterCreator";
+import CharacterCreator from "@/app/components/custom/CharacterCreator/CharacterCreator";
 import { getClasses, getRaces } from "@/services/neon/db";
 import { PlayableClass, Race } from "@/services/neon/types";
 

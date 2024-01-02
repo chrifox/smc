@@ -20,7 +20,9 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} min-h-screen overflow-x-hidden`}>
+      <body
+        className={`${inter.className} min-h-screen overflow-x-hidden w-full sm:w-[360px]`}
+      >
         <UserContextProvider>
           <>
             <header>

@@ -1,4 +1,4 @@
-import CharacterCreator from "../../components/custom/CharacterCreator/CharacterCreator";
+import CharacterCreator from "@/app/components/custom/CharacterCreator/CharacterCreator";
 import { getClasses, getRaces } from "@/services/graphql/requests";
 import { GQLClass, GQLRace } from "@/services/graphql/types";
 
