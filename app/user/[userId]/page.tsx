@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 
 import { UserContext } from "@/app/context/UserContext";
 import Button from "@/app/components/element/Button";
+import { CHARACTER_LIST, SIGN_IN, USER } from "@/app/constants/routes";
 
-const Account = () => {
+const UserAccountPage = () => {
   const { user, setUser, defaultUser } = useContext(UserContext);
   const router = useRouter();
 
@@ -16,17 +17,27 @@ const Account = () => {
       .then(() => setUser(defaultUser));
   }
 
+  function handleViewCharacters() {
+    router.push(`${USER}/${user.id}${CHARACTER_LIST}`);
+  }
+
   useEffect(() => {
-    if (!user?.email) {
-      router.push("/user/sign-in");
+    if (user.id === -1) {
+      router.push(SIGN_IN);
     }
   }, [user]);
 
-  return user?.email ? (
-    <div>
+  return (
+    <div className="flex flex-col items-center">
+      <h1>Account</h1>
+
+      <Button classes="mb-4" onClick={handleViewCharacters}>
+        My Characters
+      </Button>
+
       <Button onClick={handleSignOut}>Sign Out</Button>
     </div>
-  ) : null;
+  );
 };
 
-export default Account;
+export default UserAccountPage;

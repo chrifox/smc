@@ -19,7 +19,7 @@ async function configureDb() {
   createTables(sql);
 }
 
-configureDb().catch((error) => console.log("DB error:: ", error));
+configureDb().catch((error) => console.error("DB error:: ", error));
 
 export async function getRace(race: string) {
   const [raceDetails] = await sql`SELECT * FROM "races" WHERE name = ${race}`;

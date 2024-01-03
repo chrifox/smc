@@ -1,18 +1,17 @@
 "use client";
 
+import { useContext } from "react";
+import { useRouter } from "next/navigation";
+import { UserContext } from "@/app/context/UserContext";
 import { Character } from "@/services/neon/types";
 import { get5eClassColour, getCustomClassColour } from "@/app/utils/character";
+import { CHARACTER, USER } from "@/app/constants/routes";
 import Table from "../element/Table";
 
 type CharacterListProps = {
   characters: Character[];
-  handleDeleteCharacter: (characterId: number) => void;
-  handleViewCharacter: (characterId: number) => void;
+  handleDeleteCharacter: (characterId: number, userId: number) => void;
 };
-
-function getRowClasses(row: any) {
-  return "bg-gray-900";
-}
 
 function getCellClasses(row: any, key: string) {
   if (key === "class") {
@@ -28,8 +27,10 @@ function getCellClasses(row: any, key: string) {
 const CharacterList = ({
   characters,
   handleDeleteCharacter,
-  handleViewCharacter,
 }: CharacterListProps) => {
+  const { user } = useContext(UserContext);
+  const router = useRouter();
+
   const characterTableData = characters.map((character: Character) => ({
     id: character.id,
     name: character.name,
@@ -38,14 +39,17 @@ const CharacterList = ({
     type: character.type,
   }));
 
+  function handleViewCharacter(characterId: number) {
+    router.push(`${USER}/${user.id}${CHARACTER}/${characterId}`);
+  }
+
   return (
     <div>
       <Table
         allowDelete
-        handleDelete={handleDeleteCharacter}
+        handleDelete={(rowId: number) => handleDeleteCharacter(rowId, user.id)}
         rows={characterTableData}
         rowAction={handleViewCharacter}
-        getRowClasses={getRowClasses}
         getCellClasses={getCellClasses}
         columns={[
           { key: "id", label: "ID" },

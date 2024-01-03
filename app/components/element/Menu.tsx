@@ -1,15 +1,9 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { HomeRounded, MenuRounded, PersonRounded } from "@mui/icons-material";
 import { UserContext } from "../../context/UserContext";
-import {
-  ACCOUNT,
-  CAMPAIGN_LIST,
-  CHARACTER_LIST,
-  CREATE_CHARACTER,
-  HOME,
-} from "@/app/constants/routes";
+import { USER, HOME } from "@/app/constants/routes";
 
 type Link = {
   path: string;
@@ -20,31 +14,12 @@ type MenuProps = {};
 
 const Menu = ({}: MenuProps) => {
   const { user } = useContext(UserContext);
-  const [links, setLinks] = useState<Link[]>([]);
+  const [links] = useState<Link[]>([]);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
   function toggleMenu() {
     setMenuOpen((previous) => !previous);
   }
-
-  useEffect(() => {
-    if (user) {
-      setLinks([
-        {
-          path: CREATE_CHARACTER,
-          label: "Create Character",
-        },
-        {
-          path: CHARACTER_LIST,
-          label: "Characters",
-        },
-        {
-          path: CAMPAIGN_LIST,
-          label: "Campaigns",
-        },
-      ]);
-    }
-  }, [user]);
 
   return (
     <div className="px-4 w-full bg-gray-900">
@@ -66,7 +41,7 @@ const Menu = ({}: MenuProps) => {
         </div>
 
         <li className="hidden sm:block ml-auto">
-          <a className="flex p-2" href="/user/account">
+          <a className="flex p-2" href={USER}>
             <span className="mr-2">{user?.email || ""}</span>
             <PersonRounded />
           </a>
@@ -83,7 +58,7 @@ const Menu = ({}: MenuProps) => {
         <div className="absolute left-0 w-full bg-gray-900">
           <ul className="list-none flex flex-col">
             <li>
-              <a className="flex p-4" href={ACCOUNT}>
+              <a className="flex p-4" href={USER}>
                 Account
               </a>
             </li>

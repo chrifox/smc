@@ -2,7 +2,7 @@ import { getLatency } from "@/services/neon/db";
 
 export default async function Home() {
   const dbLatency = await getLatency();
-  console.log("Get latency:: ", dbLatency);
+  console.info("SQL DB latency: ", dbLatency);
 
   return (
     <div>

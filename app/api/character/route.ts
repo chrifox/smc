@@ -8,14 +8,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
-  const userId = url.searchParams.get("uid");
   const characterId = url.searchParams.get("cid");
-
-  if (userId) {
-    const data = await getCharacters(parseInt(userId));
-
-    return NextResponse.json({ message: "CHARACTERS LIST", data });
-  }
 
   if (characterId) {
     const data = await getCharacter(parseInt(characterId));

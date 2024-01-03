@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useEffect, useState } from "react";
-import { User } from "../../services/neon/types";
+import { Character, User } from "../../services/neon/types";
 
 type UserContextValue = {
   user: User;

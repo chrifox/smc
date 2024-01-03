@@ -21,7 +21,7 @@ const ViewCharacter = ({ params }: PageProps) => {
   return (
     character && (
       <div>
-        <h1 className="mb-4">Character Sheet - {character.name}</h1>
+        <h1>Character Sheet - {character.name}</h1>
 
         <CharacterSheet character={character} />
       </div>
