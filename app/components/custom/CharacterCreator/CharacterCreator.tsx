@@ -20,7 +20,34 @@ interface SubraceOption extends InputOption {
 type GenerateCharacterProps = {
   races: Race[];
   classes: PlayableClass[];
+  type: "5e" | "custom";
 };
+
+const originOptions = [
+  {
+    value: "martial",
+    label: "Martial",
+    description:
+      "Uses their body and weapons specialising in close-quarters fighting.",
+  },
+  {
+    value: "finesse",
+    label: "Finesse",
+    description:
+      "Uses a more subtle approach rather than attacking head on, either from afar or from the shadows.",
+  },
+  {
+    value: "arcane",
+    label: "Arcane",
+    description:
+      "Uses magical power to manipulate the weave, either innately or from a patron.",
+  },
+  {
+    value: "holy",
+    label: "Holy",
+    description: "Draws on power bestowed by a deity or higher being.",
+  },
+];
 
 const defaultFormData = {
   name: "",
@@ -40,9 +67,10 @@ const defaultFormData = {
   wis: 10,
   cha: 10,
   hp: 0,
+  backstory: "",
 };
 
-const CharacterCreator = ({ races, classes }: GenerateCharacterProps) => {
+const CharacterCreator = ({ races, classes, type }: GenerateCharacterProps) => {
   const { user } = useContext(UserContext);
   const router = useRouter();
   const pathname = usePathname();
@@ -75,7 +103,7 @@ const CharacterCreator = ({ races, classes }: GenerateCharacterProps) => {
       cha: parseInt(cha),
     };
 
-    character.type = pathname.includes("5e") ? "5e" : "custom";
+    character.type = type;
     const race = races.find(({ name }) => name === formData.race);
     const classDetails = classes.find(({ name }) => name === formData.class);
 
@@ -117,6 +145,9 @@ const CharacterCreator = ({ races, classes }: GenerateCharacterProps) => {
           );
           const selectedClass: PlayableClass | undefined = classes.find(
             (c: PlayableClass) => c.name === formData.class
+          );
+          const selectedOrigin = originOptions.find(
+            (o) => o.value === formData.origin
           );
 
           let filteredSubraceOptions: SubraceOption[] = [];
@@ -207,37 +238,59 @@ const CharacterCreator = ({ races, classes }: GenerateCharacterProps) => {
                 </div>
               )}
 
-              <div className="flex flex-col">
-                <Input
-                  type="select"
-                  label="Class"
-                  name="class"
-                  placeholder="Choose a Class"
-                  value={formData.class}
-                  onChange={updateFormData}
-                  options={classOptions}
-                  required
-                />
+              {type === "custom" ? (
+                <div className="flex flex-col">
+                  <Input
+                    type="select"
+                    label="Origin"
+                    name="origin"
+                    placeholder="Choose an Origin"
+                    value={formData.origin}
+                    onChange={updateFormData}
+                    options={originOptions}
+                    required
+                  />
 
-                {selectedClass && (
-                  <div className="flex flex-col">
-                    {selectedClass?.hit_die && (
-                      <div>Hit Dice: d{selectedClass.hit_die}</div>
-                    )}
+                  {selectedOrigin && (
+                    <div className="flex flex-col">
+                      {selectedOrigin.description && (
+                        <div>Description: {selectedOrigin.description}</div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="flex flex-col">
+                  <Input
+                    type="select"
+                    label="Class"
+                    name="class"
+                    placeholder="Choose a Class"
+                    value={formData.class}
+                    onChange={updateFormData}
+                    options={classOptions}
+                    required
+                  />
 
-                    {/* <div>Primary Stat: {selectedClass.primary_stat}</div> */}
-                    <div>Saving Throws: {selectedClass.saving_throws}</div>
+                  {selectedClass && (
+                    <div className="flex flex-col">
+                      {selectedClass?.hit_die && (
+                        <div>Hit Dice: d{selectedClass.hit_die}</div>
+                      )}
 
-                    {selectedClass.proficiencies && (
-                      <div>Proficiencies: {selectedClass.proficiencies}</div>
-                    )}
+                      <div>Saving Throws: {selectedClass.saving_throws}</div>
 
-                    {selectedClass.description && (
-                      <div>Description: {selectedClass.description}</div>
-                    )}
-                  </div>
-                )}
-              </div>
+                      {selectedClass.proficiencies && (
+                        <div>Proficiencies: {selectedClass.proficiencies}</div>
+                      )}
+
+                      {selectedClass.description && (
+                        <div>Description: {selectedClass.description}</div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
 
               <AbilityScores
                 formData={formData}
@@ -323,11 +376,24 @@ const CharacterCreator = ({ races, classes }: GenerateCharacterProps) => {
                 />
               </div>
 
-              <div className="p-4 flex flex-col w-full items-center border border-gray-700 rounded-md">
+              <div className="p-4 mb-2 flex flex-col w-full items-center border border-gray-700 rounded-md">
                 <CharacterPortrait
                   skinColour={formData.skin_colour}
                   hairColour={formData.hair_colour}
                   eyeColour={formData.eye_colour}
+                />
+              </div>
+
+              <div>
+                <Input
+                  type="textarea"
+                  label="Backstory"
+                  name="backstory"
+                  value={formData.backstory}
+                  onChange={updateFormData}
+                  placeholder="Write a backstory"
+                  maxLength={1000}
+                  rows={15}
                 />
               </div>
             </>

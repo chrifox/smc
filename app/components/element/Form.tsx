@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import Button from "./Button";
 
 type FormProps = {
@@ -29,7 +29,9 @@ const Form = ({
     }));
   }
 
-  function handleReset() {
+  function handleReset(ev: any) {
+    ev.preventDefault();
+
     setFormData(defaultFormData);
   }
 

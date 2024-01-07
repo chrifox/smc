@@ -44,7 +44,11 @@ const HomePage = async () => {
       <div>
         <h1>5E Character Builder</h1>
 
-        <CharacterCreator races={sanitisedRaces} classes={sanitisedClasses} />
+        <CharacterCreator
+          races={sanitisedRaces}
+          classes={sanitisedClasses}
+          type="5e"
+        />
       </div>
     )
   );

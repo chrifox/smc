@@ -6,16 +6,11 @@ const CreateCharacter = async () => {
   const dbRaces = (await getRaces()) as Race[];
   const dbClasses = (await getClasses()) as PlayableClass[];
 
-  const props = {
-    races: dbRaces,
-    classes: dbClasses,
-  };
-
   return (
     <div>
       <h1>Custom Character Builder</h1>
 
-      <CharacterCreator {...props} />
+      <CharacterCreator races={dbRaces} classes={dbClasses} type="custom" />
     </div>
   );
 };

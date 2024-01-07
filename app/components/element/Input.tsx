@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -9,6 +9,8 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 interface SelectProps extends InputHTMLAttributes<HTMLSelectElement> {
   options?: { label: string; value: string }[];
 }
+
+interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
 const defaultInputGroupClasses = "input-group mb-2";
 const defaultInputClasses = "text-black outline-none rounded w-full p-1";
@@ -35,7 +37,7 @@ const Input = ({
   options = [],
   inputGroupClasses = "w-full",
   ...props
-}: InputProps & SelectProps) => {
+}: InputProps & SelectProps & TextAreaProps) => {
   const groupClasses = `${defaultInputGroupClasses} ${inputGroupClasses}`;
   switch (props.type) {
     case "select":
@@ -68,6 +70,15 @@ const Input = ({
             className={defaultInputClasses.replaceAll("p-1", "")}
             {...props}
           />
+        </InputGroup>
+      );
+    case "textarea":
+      return (
+        <InputGroup label={label} classes={groupClasses}>
+          <textarea
+            className={`resize-none ${defaultInputClasses}`}
+            {...props}
+          ></textarea>
         </InputGroup>
       );
     default:

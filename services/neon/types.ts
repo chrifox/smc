@@ -9,11 +9,14 @@ export type Race = {
   speed: number;
   languages: string;
   created_at?: string;
-  hit_die?: number; // custom only
-  resistances?: string; // custom only
 
-  subraces?: any; // 5e only
-  ability_bonuses?: any; // 5e only
+  // custom only
+  hit_die?: number;
+  resistances?: string;
+
+  // 5e only
+  subraces?: any;
+  ability_bonuses?: any;
 };
 
 export type PlayableClass = {
@@ -25,9 +28,12 @@ export type PlayableClass = {
   saving_throws: string;
   created_at?: string;
 
-  proficiencies?: string; // custom only
+  // custom only
+  origin?: string;
+  proficiencies?: string;
 
-  hit_die?: number; // 5e only
+  // 5e only
+  hit_die?: number;
 };
 
 export type User = {
@@ -54,6 +60,7 @@ export type Character = {
   gender?: string;
   race: string;
   subrace?: string;
+  origin?: "martial" | "finesse" | "arcane" | "holy";
   class: string;
   level: number;
   hair_colour?: string;
